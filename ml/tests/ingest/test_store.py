@@ -228,6 +228,7 @@ def test_reparse_rederives_fields_without_touching_timestamps(
         False,
         "restricted",
     )
+    row.entry_evidence = row.entry_evidence_text = None
     session.flush()
     assert reparse_all(session) == 1
     row = rows(session)["a"]
@@ -236,7 +237,12 @@ def test_reparse_rederives_fields_without_touching_timestamps(
         "TX",
         "entry",
         True,
-        "unknown",
+        "unclear",
+    )
+    assert (row.entry_evidence, row.entry_evidence_text, row.sponsorship_evidence) == (
+        "title_keyword",
+        "New Grad",
+        None,
     )
     assert stamps == (
         row.first_seen_at,

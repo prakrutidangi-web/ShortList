@@ -16,13 +16,18 @@ def test_greenhouse_fixture(fixtures_dir: Path) -> None:
     assert "Python & SQL" in ng.description_text and "<" not in ng.description_text
     assert (ng.city, ng.region, ng.country) == ("San Francisco", "CA", "US")
     assert ng.years_min == 0 and ng.seniority == "entry" and ng.is_entry_level
-    assert ng.sponsorship == "restricted"
+    assert ng.sponsorship == "restricted" and "visa sponsorship" in (ng.sponsorship_evidence or "")
+    assert (ng.entry_evidence, ng.entry_evidence_text) == ("title_keyword", "New Grad")
     assert ng.url == ng.apply_url == "https://boards.example.test/acme/jobs/1001"
     # The live list endpoint does return first_published (the docs page does not show it).
     assert ng.source_posted_at == datetime(2026, 10, 1, 16, 0, tzinfo=UTC)  # 12:00-04:00
     assert ng.source_updated_at is not None
     assert senior.is_remote is True and senior.seniority == "senior"
-    assert ml1.sponsorship == "sponsors" and ml1.seniority == "entry"
+    assert (
+        ml1.sponsorship == "offered"
+        and ml1.sponsorship_evidence is not None
+        and ml1.seniority == "entry"
+    )
 
 
 def test_lever_fixture(fixtures_dir: Path) -> None:
@@ -36,7 +41,10 @@ def test_lever_fixture(fixtures_dir: Path) -> None:
     assert staff.is_remote is True and staff.seniority == "senior"
     assert staff.location_raw == "Remote; Toronto, ON, Canada"
     assert staff.apply_url == staff.url  # no applyUrl -> falls back to the hosted page
-    assert staff.sponsorship == "unknown"  # "We sponsor community events" is not visa sponsorship
+    assert (staff.sponsorship, staff.sponsorship_evidence) == (
+        "unclear",
+        None,
+    )  # "We sponsor community events" is not visa sponsorship
 
 
 def test_malformed_postings_are_counted_not_fatal() -> None:

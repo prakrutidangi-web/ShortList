@@ -264,3 +264,23 @@ def test_cli_run_and_clean_raw(
 
     assert cli.main(["clean-raw", "--dry-run"]) == 0
     assert "would delete 0" in capsys.readouterr().out
+
+
+def test_report_counts_and_runs(
+    factory: sessionmaker[Session],
+    net: Net,
+    fetcher_for: FetcherFor,
+    settings: Settings,
+    t0: datetime,
+) -> None:
+    from shortlist_ml.ingest.report import build_report
+
+    run_all(factory, [ACME, BETA], fetcher_for(net), settings, clock=lambda: t0)
+    with factory() as s:
+        text = build_report(s, now=t0)
+    # Synthetic Greenhouse fixture: 1001 SF (entry, US), 1002 "Remote - US" (senior, US, remote),
+    # 1003 NYC "Engineer I" (entry, US) -> 3 postings, 2 entry-level, 0 interns, 3 US, 0 unknown, 1 remote.
+    assert "| Acme | greenhouse | 3 | 2 | 0 | 3 | 0 | 1 | 0 |" in text
+    assert "| Beta | lever | 2 | 1 | 0 | 1 | 0 | 1 | 0 |" in text
+    assert "| **Total** | | **5** |" in text
+    assert "| ok | 2 | 5 | 5 | 0 | 0 | 0 | 0 |" in text
