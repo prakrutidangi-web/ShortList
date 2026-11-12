@@ -1,11 +1,56 @@
 # Data sources
 
-Filled in during Phase 1, after reading each provider's current terms. Planned sources:
-Greenhouse Job Board API, Lever Postings API, Ashby public posting API (if available per company).
-Not used: LinkedIn, Handshake, Indeed, or any site whose terms prohibit automated access.
+Last reviewed: 2026-11-12 (read the providers' public API documentation; this is not legal advice).
+Only public, unauthenticated GET endpoints of company job boards are used. Not used: LinkedIn,
+Handshake's own site, Indeed, or any site whose terms prohibit automated access. We do not bypass
+logins, CAPTCHAs or rate limits.
 
-| Source | Terms reviewed | Attribution required | Notes |
+| Source | Endpoint | Auth | What the docs say about use | Attribution |
+|---|---|---|---|---|
+| Greenhouse Job Board API | `https://boards-api.greenhouse.io/v1/boards/{token}/jobs?content=true` | None ("authentication is not required for any GET endpoints") | No rate limit, license or terms stated on the API page. | None stated. Each posting links back to the company's own page (`absolute_url`). |
+| Lever Postings API | `https://api.lever.co/v0/postings/{company}?mode=json` | None for GET | Published postings are described as publicly viewable and "may be scraped by third parties". A 2 requests/second limit is stated for application POSTs only (we never POST). No GET limit documented. | None stated. Each posting links to Lever's hosted page and apply form. |
+| Ashby | not used yet | | Deferred to a later phase. | |
+
+Source docs: <https://docs.greenhouse.io/job-board.html>, <https://github.com/lever/postings-api>.
+
+## How we behave
+- One request per second per host (`REQUEST_INTERVAL_S`), a generic User-Agent with no personal
+  details, bounded retries, `Retry-After` honoured once on 429.
+- Raw responses are cached on disk and a board is fetched at most once per local day unless forced.
+- Every posting keeps `url` and `apply_url` pointing at the company's own page. Shortlist ranks; it
+  does not replace the source.
+- Raw data (`data/raw/`) is gitignored. Only small trimmed fixtures are committed.
+
+## Known data quirks (checked against live data on 2026-11-12: 8,634 Greenhouse and 1,915 Lever postings)
+- Greenhouse: the docs page shows `first_published` only on the single-job endpoint, but the **list
+  endpoint with `content=true` returns it on 100% of postings**, along with `updated_at`. Both are used.
+  `first_published` can be old (502 of 8,634 postings are more than a year old), so for recency prefer
+  our own `first_seen_at` and treat very old `first_published` values as possible evergreen listings.
+- Greenhouse also returns `education` (21%), `employment` (5%), `application_deadline`, `departments`,
+  `offices`, `company_name` and `data_compliance`. We do not store these yet; `education` may be a
+  useful ranking feature later.
+- Greenhouse `content` is HTML that is additionally entity-escaped; we unescape then strip tags.
+- Greenhouse location is a free-text string (`location.name`) with no structure: "City, ST",
+  "City, State, Country", "NY \u2022 United States", "CO - Hybrid", multi-location with `;` or `|`,
+  region codes like "AMER"/"EMEA". Parsed heuristically (see ADR 0009).
+- Lever: `createdAt` (epoch ms) is present on 100% of postings and is used as the posted date.
+  `workplaceType` is `onsite | hybrid | remote` (the docs say `on-site`); `salaryRange` appears on
+  29% (not stored yet). The `country` field is an ISO code.
+- Lever: only the US endpoint (`api.lever.co`) is supported; the EU host (`api.eu.lever.co`) exists
+  and is not used.
+- No board returned an unexpected top-level shape, a non-integer Greenhouse id, an empty description,
+  or a missing location.
+
+## Test fixtures
+`data/fixtures/synthetic/` holds hand-written, clearly synthetic payloads (never used for evaluation).
+`data/fixtures/{greenhouse,lever}/sample.json` hold three real postings each, recorded from the live
+public APIs and trimmed: internal ids, requisition ids and `metadata` removed, descriptions cut at a
+paragraph boundary, scanned for email addresses, phone numbers and contact phrases (none found).
+
+| Fixture | Source | Fetched | Postings |
 |---|---|---|---|
-| Greenhouse | not yet | not yet | |
-| Lever | not yet | not yet | |
-| Ashby | not yet | not yet | |
+| `greenhouse/sample.json` | Greenhouse Job Board API (Affirm, GitLab, Coinbase boards) | 2026-11-12 | Software Engineer Early Career; Director, Analytics Engineering; Analytics Engineer Intern |
+| `lever/sample.json` | Lever Postings API (Palantir, Shield AI, Spotify boards) | 2026-11-12 | Backend Software Engineer; Engineering Technician; AV Engineer |
+
+Job descriptions remain the property of the respective companies; they are included only as small
+test samples, and every posting links back to the company's own page.
