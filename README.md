@@ -15,6 +15,8 @@ make dev     # DB in Docker, API + web natively with hot reload
 make check   # lint + typecheck + tests
 make migrate # apply DB migrations (db must be up)
 make verify-companies  # check companies.candidates.yaml against live APIs -> companies.yaml
+make reparse # re-derive rule-based fields (after changing normalization rules)
+make report  # write docs/ingest-report.md (per-company counts + run stats)
 make ingest  # fetch boards in companies.yaml (FORCE=1 to refetch today)
 make clean-raw  # prune raw API files past RAW_RETENTION_DAYS (DRY=1 to preview)
 ```
