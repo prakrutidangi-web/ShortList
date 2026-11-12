@@ -2,7 +2,7 @@
 -include .env
 export
 
-.PHONY: help up down logs dev install migrate ingest verify-companies reparse clean-raw lint fmt typecheck test test-db check eval
+.PHONY: help up down logs dev install migrate ingest verify-companies reparse report clean-raw lint fmt typecheck test test-db check eval
 
 help: ## Show available targets
 	@grep -hE '^[a-z-]+:.*## ' Makefile |awk -F':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
@@ -38,6 +38,9 @@ verify-companies: ## Check companies.candidates.yaml against live APIs; writes c
 
 reparse: ## Re-derive rule-based fields (location, seniority, ...) for stored postings after a rule change
 	uv run python -m shortlist_ml.ingest reparse
+
+report: ## Write docs/ingest-report.md (per-company counts + run stats); regenerate after changes
+	uv run python -m shortlist_ml.ingest report
 
 clean-raw: ## Delete raw API files older than RAW_RETENTION_DAYS (DRY=1 to preview)
 	uv run python -m shortlist_ml.ingest clean-raw $(if $(DRY),--dry-run,)

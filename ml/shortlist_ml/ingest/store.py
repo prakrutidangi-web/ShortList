@@ -34,7 +34,8 @@ class StoreResult:
 
 _CONTENT_FIELDS = (
     "url", "apply_url", "title", "description_text", "location_raw", "city", "region", "country",
-    "is_remote", "years_min", "seniority", "is_entry_level", "sponsorship", "source_posted_at",
+    "is_remote", "years_min", "seniority", "is_entry_level", "entry_evidence", "entry_evidence_text",
+    "sponsorship", "sponsorship_evidence", "source_posted_at",
     "source_updated_at", "content_hash",
 )  # fmt: skip
 
@@ -155,7 +156,9 @@ def reparse_all(session: Session) -> int:
             "city": d.city, "region": d.region, "country": (d.country or row.country) if keep_hints else d.country,
             "is_remote": True if (keep_hints and (d.is_remote or row.is_remote)) else d.is_remote,
             "years_min": d.years_min, "seniority": d.seniority,
-            "is_entry_level": d.is_entry_level, "sponsorship": d.sponsorship,
+            "is_entry_level": d.is_entry_level, "entry_evidence": d.entry_evidence,
+            "entry_evidence_text": d.entry_evidence_text, "sponsorship": d.sponsorship,
+            "sponsorship_evidence": d.sponsorship_evidence,
         }  # fmt: skip
         diff = {k: v for k, v in new.items() if getattr(row, k) != v}
         for k, v in diff.items():

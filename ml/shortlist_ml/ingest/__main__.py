@@ -11,6 +11,7 @@ from shortlist_ml.db.session import make_engine, make_session_factory
 from shortlist_ml.ingest import rawstore
 from shortlist_ml.ingest.companies import load_companies
 from shortlist_ml.ingest.http import Fetcher, RateLimiter, make_client
+from shortlist_ml.ingest.report import build_report
 from shortlist_ml.ingest.run import run_all
 from shortlist_ml.ingest.schedule import next_run_at
 from shortlist_ml.ingest.store import reparse_all
@@ -71,6 +72,15 @@ def cmd_reparse(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_report(args: argparse.Namespace) -> int:
+    s = get_settings()
+    with make_session_factory(make_engine(s.database_url))() as session:
+        text = build_report(session)
+    args.out.write_text(text)
+    print(f"wrote {args.out}")
+    return 0
+
+
 def cmd_clean_raw(args: argparse.Namespace) -> int:
     s = get_settings()
     today = datetime.now(UTC).astimezone(ZoneInfo(s.timezone)).date()
@@ -117,6 +127,9 @@ def main(argv: list[str] | None = None) -> int:
         "reparse", help="re-derive rule-based fields for stored postings after a rule change"
     )
     p_rp.set_defaults(fn=cmd_reparse)
+    p_rep = sub.add_parser("report", help="write per-company counts and run statistics as markdown")
+    p_rep.add_argument("--out", type=Path, default=Path("docs/ingest-report.md"))
+    p_rep.set_defaults(fn=cmd_report)
     p_cl = sub.add_parser("clean-raw", help="delete raw files past the retention window")
     p_cl.add_argument("--keep-days", type=int)
     p_cl.add_argument("--dry-run", action="store_true")
