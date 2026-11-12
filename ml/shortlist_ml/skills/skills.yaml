@@ -1,0 +1,156 @@
+# Curated skill dictionary (Phase 2, v0). Hand-written; matching is regex-based with word boundaries.
+#   aliases     case-insensitive strings
+#   cs          case-sensitive strings (ambiguous words such as "React", "Swift", "Julia")
+#   regex       raw case-insensitive regexes for context-gated names ("Go", "R", "C")
+# A name with only a few spellings is intentional: precision over recall. Gaps are measured in
+# docs/skills-labels.csv and docs/skills-eval.md.
+
+# ---- languages
+- {name: Python, category: language, aliases: [python, python3, pyspark]}
+- {name: Java, category: language, aliases: [java]}
+- {name: JavaScript, category: language, aliases: [javascript, ecmascript, "es6"]}
+- {name: TypeScript, category: language, aliases: [typescript]}
+- {name: "C++", category: language, aliases: ["c++", "c/c++", "cpp"]}
+- {name: C, category: language, regex: ['\bC\s*/\s*C\+\+', '\bC\s+and\s+C\+\+', '\bC\s+programming\b']}
+- {name: "C#", category: language, aliases: ["c#", "csharp"]}
+- {name: Go, category: language, aliases: [golang], regex: ['\b(?:in|with|using)\s+Go\b(?!\s+(?:to|live|ahead))', '\bGo\s*(?:,|/|and|or)\s*(?:Python|Java|Rust|C\+\+|Ruby|Kotlin|Scala|TypeScript|JavaScript|Node|SQL|Bash|PHP|Swift)\b', '\b(?:Python|Java|Rust|C\+\+|Ruby|Kotlin|Scala|TypeScript|JavaScript|Node(?:\.js)?|SQL|Bash|PHP|Swift)\s*(?:,|/|and|or)\s*Go\b(?!\s*-?\s*to)']}
+- {name: Rust, category: language, aliases: [rust]}
+- {name: Ruby, category: language, aliases: [ruby]}
+- {name: PHP, category: language, aliases: [php]}
+- {name: Swift, category: language, aliases: [swiftui], regex: ['\b(?:in|with|using)\s+Swift\b', '\bSwift\s*(?:,|/|and|or)\s*(?:Kotlin|Objective-C|Java|Python|Android|iOS)\b', '\b(?:Kotlin|Objective-C|Java|Python)\s*(?:,|/|and|or)\s*Swift\b', '\bSwift\s+(?:programming|developer|engineer|language)', '\b(?:iOS|Xcode|Apple|macOS)\b[^.]{0,60}\bSwift\b']}
+- {name: Kotlin, category: language, aliases: [kotlin]}
+- {name: Scala, category: language, aliases: [scala]}
+- {name: R, category: language, regex: ['\bR\s+programming\b', '\bin\s+R\b', '\bR\s*(?:,|/)\s*(?:Python|SQL|SAS|Stata|MATLAB)\b', '\b(?:Python|SQL|SAS|Stata|MATLAB)\s*(?:,|/)\s*R\b', '\brstudio\b']}
+- {name: SQL, category: language, aliases: [sql, t-sql, pl/sql]}
+- {name: Bash, category: language, aliases: [bash, "shell scripting", "shell script"]}
+- {name: MATLAB, category: language, aliases: [matlab]}
+- {name: Julia, category: language, cs: [Julia]}
+- {name: Dart, category: language, cs: [Dart]}
+- {name: Perl, category: language, aliases: [perl]}
+- {name: Haskell, category: language, aliases: [haskell]}
+- {name: Elixir, category: language, aliases: [elixir]}
+- {name: Lua, category: language, cs: [Lua]}
+- {name: Objective-C, category: language, aliases: [objective-c, objc]}
+- {name: Solidity, category: language, aliases: [solidity]}
+- {name: SAS, category: language, cs: [SAS]}
+- {name: Verilog, category: language, aliases: [verilog, systemverilog, vhdl]}
+
+# ---- web / backend
+- {name: React, category: framework, aliases: [reactjs, react.js], regex: ['\breact\b(?!\s+(?:to|on|quickly|fast|swiftly|decisively|and\s+(?:respond|adapt|learn)))']}
+- {name: Angular, category: framework, cs: [Angular, AngularJS]}
+- {name: Vue, category: framework, aliases: [vue, vue.js, vuejs]}
+- {name: Next.js, category: framework, aliases: [next.js, nextjs]}
+- {name: Svelte, category: framework, aliases: [svelte, sveltekit]}
+- {name: Node.js, category: framework, aliases: [node.js, nodejs]}
+- {name: Express, category: framework, aliases: [express.js, expressjs]}
+- {name: Django, category: framework, aliases: [django]}
+- {name: Flask, category: framework, cs: [Flask]}
+- {name: FastAPI, category: framework, aliases: [fastapi]}
+- {name: Spring, category: framework, aliases: [spring boot, springboot, "spring framework"], cs: [Spring]}
+- {name: Rails, category: framework, aliases: [ruby on rails], cs: [Rails]}
+- {name: .NET, category: framework, aliases: [.net, asp.net, dotnet]}
+- {name: GraphQL, category: api, aliases: [graphql]}
+- {name: REST, category: api, aliases: [restful, rest api, rest apis], cs: [REST]}
+- {name: gRPC, category: api, aliases: [grpc]}
+- {name: HTML, category: web, aliases: [html, html5]}
+- {name: CSS, category: web, aliases: [css, css3, sass]}
+- {name: Tailwind, category: web, aliases: [tailwind, tailwindcss]}
+- {name: Redux, category: web, aliases: [redux]}
+- {name: WebAssembly, category: web, aliases: [webassembly, wasm]}
+
+# ---- data
+- {name: PostgreSQL, category: database, aliases: [postgresql, postgres, psql]}
+- {name: MySQL, category: database, aliases: [mysql, mariadb]}
+- {name: MongoDB, category: database, aliases: [mongodb, mongo]}
+- {name: Redis, category: database, aliases: [redis]}
+- {name: Cassandra, category: database, aliases: [cassandra]}
+- {name: DynamoDB, category: database, aliases: [dynamodb]}
+- {name: Elasticsearch, category: database, aliases: [elasticsearch, opensearch]}
+- {name: SQLite, category: database, aliases: [sqlite]}
+- {name: SQL Server, category: database, aliases: [sql server, mssql]}
+- {name: Oracle, category: database, cs: [Oracle]}
+- {name: NoSQL, category: database, aliases: [nosql]}
+- {name: Snowflake, category: data, cs: [Snowflake]}
+- {name: BigQuery, category: data, aliases: [bigquery]}
+- {name: Redshift, category: data, aliases: [redshift]}
+- {name: Databricks, category: data, cs: [Databricks]}
+- {name: dbt, category: data, cs: [dbt], aliases: [data build tool]}
+- {name: Airflow, category: data, aliases: [airflow]}
+- {name: Spark, category: data, aliases: [apache spark, spark sql, spark streaming, pyspark], regex: ['\bSpark\b(?=\s*(?:,|/|\)|and\b|or\b|jobs|clusters|applications|pipelines))']}
+- {name: Hadoop, category: data, aliases: [hadoop, hdfs, mapreduce]}
+- {name: Kafka, category: data, aliases: [kafka]}
+- {name: Flink, category: data, aliases: [flink]}
+- {name: Hive, category: data, aliases: [apache hive, hiveql]}
+- {name: Trino, category: data, aliases: [trino, presto]}
+- {name: ClickHouse, category: data, aliases: [clickhouse]}
+- {name: Pandas, category: data, aliases: [pandas]}
+- {name: NumPy, category: data, aliases: [numpy]}
+- {name: Polars, category: data, cs: [Polars]}
+- {name: Dagster, category: data, aliases: [dagster]}
+- {name: Prefect, category: data, aliases: [prefect]}
+- {name: Looker, category: bi, aliases: [looker, lookml]}
+- {name: Tableau, category: bi, aliases: [tableau]}
+- {name: Power BI, category: bi, aliases: [power bi, powerbi]}
+- {name: Excel, category: bi, aliases: [microsoft excel, advanced excel, excel spreadsheets]}
+- {name: ETL, category: data, aliases: [etl, elt, "data pipelines", "data pipeline"]}
+- {name: Data Modeling, category: data, aliases: [data modeling, data modelling, dimensional modeling]}
+- {name: Data Warehousing, category: data, aliases: [data warehouse, data warehousing, data lake, lakehouse]}
+- {name: Parquet, category: data, aliases: [parquet]}
+- {name: Iceberg, category: data, aliases: [apache iceberg]}
+- {name: Delta Lake, category: data, aliases: [delta lake]}
+
+# ---- machine learning / AI
+- {name: Machine Learning, category: ml, aliases: [machine learning], cs: [ML]}
+- {name: Deep Learning, category: ml, aliases: [deep learning, neural networks, neural network]}
+- {name: PyTorch, category: ml, aliases: [pytorch]}
+- {name: TensorFlow, category: ml, aliases: [tensorflow]}
+- {name: scikit-learn, category: ml, aliases: [scikit-learn, sklearn]}
+- {name: Keras, category: ml, aliases: [keras]}
+- {name: JAX, category: ml, cs: [JAX]}
+- {name: XGBoost, category: ml, aliases: [xgboost, lightgbm, gradient boosting]}
+- {name: Hugging Face, category: ml, aliases: [hugging face, huggingface]}
+- {name: LLMs, category: ml, aliases: [llm, llms, large language model, large language models]}
+- {name: NLP, category: ml, aliases: [nlp, natural language processing]}
+- {name: Computer Vision, category: ml, aliases: [computer vision, opencv]}
+- {name: Reinforcement Learning, category: ml, aliases: [reinforcement learning]}
+- {name: MLOps, category: ml, aliases: [mlops, mlflow, kubeflow, model serving]}
+- {name: LangChain, category: ml, aliases: [langchain, llamaindex]}
+- {name: RAG, category: ml, aliases: [rag, retrieval-augmented generation, retrieval augmented generation]}
+- {name: Embeddings, category: ml, aliases: [embeddings, vector database, vector databases, vector search]}
+- {name: Recommender Systems, category: ml, aliases: [recommender systems, recommendation systems, recommender system, learning to rank]}
+- {name: CUDA, category: ml, aliases: [cuda, gpu programming]}
+- {name: Statistics, category: ml, aliases: [statistics, statistical modeling, hypothesis testing]}
+- {name: A/B Testing, category: ml, aliases: [a/b testing, a/b tests, experimentation, experimental design]}
+- {name: Feature Engineering, category: ml, aliases: [feature engineering]}
+
+# ---- cloud / infrastructure
+- {name: AWS, category: cloud, aliases: [aws, amazon web services]}
+- {name: Azure, category: cloud, aliases: [azure]}
+- {name: GCP, category: cloud, aliases: [gcp, google cloud]}
+- {name: Docker, category: infra, aliases: [docker, containerization]}
+- {name: Kubernetes, category: infra, aliases: [kubernetes, k8s, helm]}
+- {name: Terraform, category: infra, aliases: [terraform, infrastructure as code, pulumi]}
+- {name: Ansible, category: infra, aliases: [ansible]}
+- {name: CI/CD, category: infra, aliases: [ci/cd, cicd, continuous integration, continuous delivery, github actions, jenkins]}
+- {name: Linux, category: infra, aliases: [linux, unix]}
+- {name: Git, category: tool, aliases: [git, github, gitlab]}
+- {name: Prometheus, category: infra, aliases: [prometheus, grafana, opentelemetry]}
+- {name: Microservices, category: architecture, aliases: [microservices, microservice]}
+- {name: Distributed Systems, category: architecture, aliases: [distributed systems, distributed computing]}
+- {name: Serverless, category: architecture, aliases: [serverless, lambda functions]}
+- {name: Networking, category: infra, aliases: [tcp/ip, networking, dns, load balancing]}
+- {name: Observability, category: infra, aliases: [observability, monitoring and alerting]}
+
+# ---- mobile / systems / other
+- {name: iOS, category: mobile, cs: [iOS], aliases: [ios development]}
+- {name: Android, category: mobile, cs: [Android]}
+- {name: React Native, category: mobile, aliases: [react native]}
+- {name: Flutter, category: mobile, aliases: [flutter]}
+- {name: Embedded Systems, category: systems, aliases: [embedded systems, embedded software, firmware, rtos]}
+- {name: Robotics, category: systems, aliases: [robotics, ros]}
+- {name: Cybersecurity, category: security, aliases: [cybersecurity, application security, appsec, penetration testing, threat modeling]}
+- {name: Cryptography, category: security, aliases: [cryptography]}
+- {name: OAuth, category: security, aliases: [oauth, oauth2, saml, sso]}
+- {name: Agile, category: process, aliases: [agile, scrum, kanban]}
+- {name: Unit Testing, category: process, aliases: [unit testing, unit tests, test-driven development, tdd, pytest, junit, jest]}
+- {name: Data Structures, category: cs-fundamentals, aliases: [data structures, algorithms]}

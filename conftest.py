@@ -15,7 +15,7 @@ from shortlist_ml.config import Settings
 from shortlist_ml.db.models import Base
 from shortlist_ml.ingest.http import Fetcher, RateLimiter
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parent
 FIXTURES = REPO / "data" / "fixtures" / "synthetic"
 T0 = datetime(2026, 11, 12, 14, 0, tzinfo=UTC)  # 07:00 in America/Phoenix
 
@@ -49,6 +49,8 @@ def engine(request: pytest.FixtureRequest, tmp_path: Path) -> Iterator[Engine]:
     else:
         with scratch_postgres_db() as url:
             eng = create_engine(url)
+            with eng.begin() as conn:
+                conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
             Base.metadata.create_all(eng)
             yield eng
             eng.dispose()

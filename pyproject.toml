@@ -13,6 +13,9 @@ dependencies = [
     "httpx>=0.28.1",
     "pyyaml>=6.0.3",
     "tzdata>=2026.6",
+    "pypdf>=7.0.1",
+    "pgvector>=0.5.1",
+    "python-multipart>=0.0.33",
 ]
 # ML deps (torch, sentence-transformers, lightgbm, mlflow) are added in the phase that needs them.
 
@@ -25,6 +28,10 @@ dev = [
     "mypy>=1.11",
     "pre-commit>=3.8",
     "types-pyyaml>=6.0.12.20261111",
+]
+ml = [
+    "sentence-transformers>=6.3.0",
+    "torch>=2.15.0",
 ]
 
 [build-system]
@@ -50,10 +57,34 @@ mypy_path = ["apps/api", "ml"]
 explicit_package_bases = true
 files = ["apps/api", "ml"]
 
-# Untyped third-party libs get relaxed here as they're added (lightgbm, sentence_transformers, ...).
+[[tool.mypy.overrides]]
+# Optional ML stack: not installed in CI or in the default environment, so mypy must not require it.
+module = ["sentence_transformers.*", "torch.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["apps/api/tests", "ml/tests"]
 pythonpath = ["apps/api", "ml"]
-markers = ["db: needs a running Postgres (DATABASE_URL); skipped otherwise"]
+markers = [
+    "db: needs a running Postgres (RUN_DB_TESTS=1); skipped otherwise",
+    "model: needs the real embedding model (make install-ml, RUN_MODEL_TESTS=1); skipped otherwise",
+]
 addopts = "-ra --strict-markers"
+
+[tool.uv]
+# `uv sync` installs only the dev group. The heavy ML stack lives in the optional `ml` group
+# (`make install-ml`): keeps `make check`, CI unit tests and the default Docker build small.
+default-groups = ["dev"]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+# Linux wheels from PyPI bundle CUDA libraries (GBs). Use the CPU-only index there; macOS uses PyPI
+# (Apple Silicon wheels, which include MPS support).
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["C408"]  # dict(...) call style is fine in test parameters

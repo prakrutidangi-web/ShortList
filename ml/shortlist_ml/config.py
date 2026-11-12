@@ -16,6 +16,11 @@ class Settings(BaseSettings):
     timezone: str = "America/Phoenix"  # defines "today" for the raw-file skip rule and the schedule
     companies_file: Path = Path("companies.yaml")
     candidates_file: Path = Path("companies.candidates.yaml")
+    # Embeddings (Phase 2). "real" needs the optional ml dependency group (`make install-ml`); "fake" is a
+    # deterministic hashing encoder used by unit tests and CI. device: auto | cpu | mps | cuda.
+    embedding_backend: str = "real"
+    embedding_device: str = "auto"
+    embedding_batch_size: int = 32
     # Generic on purpose: no personal contact details are sent to third parties.
     user_agent: str = "shortlist-ingest/0.1 (personal job-search project)"
 

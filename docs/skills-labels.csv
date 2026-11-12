@@ -1,0 +1,31 @@
+n,posting_id,company,title,family,assistant_labels,extracted,true_positives,false_positives,missed_in_dictionary,missed_not_in_dictionary
+1,7449,Roblox,"Senior C++ Engineer, Real-time Engine",software_engineering,C++,C++; Robotics,C++,Robotics,,
+2,8903,Palantir,Security Systems Engineer,software_engineering,,,,,,
+3,7540,Roblox,"Senior Software Engineer, Engine Harmony",software_engineering,C++,C++,C++,,,
+4,7437,Roblox,Principal Software Engineer - Streaming,software_engineering,Distributed Systems; Networking,Networking,Networking,,Distributed Systems,
+5,8290,Okta,Senior Software Engineer - Core Infrastructure,software_engineering,Redis; Docker; Terraform; AWS; Unit Testing,AWS; Docker; Redis; Terraform,AWS; Docker; Redis; Terraform,,Unit Testing,
+6,9472,Veeva,NetSuite Developer,software_engineering,OOD:NetSuite,,,,,OOD:NetSuite
+7,3185,Elastic,Senior Java Engineer - Security - Elasticsearch,software_engineering,Java; Elasticsearch; Distributed Systems,Elasticsearch; Java,Elasticsearch; Java,,Distributed Systems,
+8,3164,Elastic,Senior Information Security Infrastructure Engineer - Security Architecture - InfoSec,software_engineering,Elasticsearch; Cybersecurity,Elasticsearch,Elasticsearch,,Cybersecurity,
+9,8306,Okta,"Senior Software Engineer, OIG",software_engineering,,,,,,
+10,7586,Roblox,"Software Engineer, Frontend - Economy",software_engineering,JavaScript; TypeScript; React,A/B Testing; JavaScript; React; TypeScript,JavaScript; React; TypeScript,A/B Testing,,
+11,8678,Spotify,Product Manager - Data Platform,data_engineering,,Machine Learning,,Machine Learning,,
+12,8645,Spotify,Backend Engineer - Data Platform,data_engineering,Iceberg; BigQuery; Kubernetes; GCP; Data Warehousing; ETL,BigQuery; Data Warehousing; ETL; GCP; Kubernetes,BigQuery; Data Warehousing; ETL; GCP; Kubernetes,,Iceberg,
+13,4419,Coinbase,Analytics Engineer Intern,data_engineering,Data Modeling; SQL; ETL,ETL; SQL,ETL; SQL,,Data Modeling,
+14,1490,Databricks,"Sr. Product Manager, Data Engineering",data_engineering,Data Warehousing; Machine Learning; ETL; OOD:Lakeflow,Data Warehousing; ETL; Machine Learning,Data Warehousing; ETL; Machine Learning,,,OOD:Lakeflow
+15,7142,Instacart,"Staff Software Engineer, Ads Data Platform",data_engineering,,CI/CD; Machine Learning,,CI/CD; Machine Learning,,
+16,5211,Chime,"Senior Software Engineer, Data Engineering",data_engineering,ETL; Data Modeling,ETL,ETL,,Data Modeling,
+17,4069,Stripe,"Senior Staff Engineer, Big Data Infrastructure",data_engineering,Airflow; Spark; Iceberg; Hive; Azure; Data Warehousing; OOD:Celeborn; OOD:S3,Airflow; Azure; Data Warehousing; Spark,Airflow; Azure; Data Warehousing; Spark,,Hive; Iceberg,OOD:Celeborn; OOD:S3
+18,1190,Databricks,Senior Software Engineer (Data Platform),data_engineering,,,,,,
+19,7856,Samsara,Software Engineer - Data Platform,data_engineering,Data Warehousing; Distributed Systems,Data Warehousing,Data Warehousing,,Distributed Systems,
+20,10388,Shield AI,"Staff Engineer, Data Platform (R5659)",data_engineering,OOD:LanceDB,,,,,OOD:LanceDB
+21,8400,Okta,"Staff Software Engineer, Applied AI",ml_ai,OOD:OpenAI API; OOD:AI agents,,,,,OOD:OpenAI API; OOD:AI agents
+22,56,Anthropic,"Applied AI Engineer, Beneficial Deployments (Lab Automation)",ml_ai,OOD:LLM evals,,,,,OOD:LLM evals
+23,7805,Samsara,Senior AI Data & Analytics Engineer II,ml_ai,Databricks; OOD:BI,Databricks,Databricks,,,OOD:BI
+24,5474,GitLab,"Fullstack Engineer (TypeScript), AI Engineering: Duo Client SDK",ml_ai,TypeScript; Vue; Unit Testing,Git; TypeScript; Vue,TypeScript; Vue,Git,Unit Testing,
+25,6626,Pinterest,Machine Learning Intern 2027 (Dublin),ml_ai,Machine Learning; NLP,A/B Testing; Machine Learning; NLP,Machine Learning; NLP,A/B Testing,,
+26,8693,Spotify,"Senior Data Scientist, Artist-First AI Music lab",ml_ai,A/B Testing; OOD:Generative AI,A/B Testing,A/B Testing,,,OOD:Generative AI
+27,8028,Duolingo,AI Research Intern (PhD),ml_ai,Machine Learning; NLP,Machine Learning; NLP,Machine Learning; NLP,,,
+28,8680,Spotify,Research Scientist - Generative Audio,ml_ai,Reinforcement Learning; Machine Learning; OOD:Diffusion models; OOD:RLHF,Machine Learning; Reinforcement Learning,Machine Learning; Reinforcement Learning,,,OOD:Diffusion models; OOD:RLHF
+29,800,Scale AI,Staff Applied AI Engineer,ml_ai,MLOps,MLOps,MLOps,,,
+30,8258,Okta,"Senior Product Manager, AI Products (Auth0)",ml_ai,,A/B Testing,,A/B Testing,,
