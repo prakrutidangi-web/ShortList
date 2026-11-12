@@ -57,6 +57,13 @@
 - {name: Okta, ats: greenhouse, board_token: okta, category: dev-tools}
 - {name: Rubrik, ats: greenhouse, board_token: rubrik, category: data-infra}
 
+# --- Lever boards (verified to return jobs in a live probe on 2026-11-12; re-verified by `make verify-companies`) ---
+- {name: Spotify, ats: lever, board_token: spotify, category: consumer-tech}
+- {name: Palantir, ats: lever, board_token: palantir, category: data-infra}
+- {name: Veeva, ats: lever, board_token: veeva, category: other}
+- {name: Outreach, ats: lever, board_token: outreach, category: dev-tools}
+- {name: Shield AI, ats: lever, board_token: shieldai, category: ai-ml}
+
 # --- Handshake (you asked me to check both ATSs) ---
 - {name: Handshake, ats: greenhouse, board_token: joinhandshake, category: other}
 - {name: Handshake, ats: lever, board_token: handshake, category: other}

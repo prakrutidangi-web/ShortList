@@ -113,3 +113,18 @@
 - name: Rubrik
   ats: greenhouse
   board_token: rubrik
+- name: Spotify
+  ats: lever
+  board_token: spotify
+- name: Palantir
+  ats: lever
+  board_token: palantir
+- name: Veeva
+  ats: lever
+  board_token: veeva
+- name: Outreach
+  ats: lever
+  board_token: outreach
+- name: Shield AI
+  ats: lever
+  board_token: shieldai
