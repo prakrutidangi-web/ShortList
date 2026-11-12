@@ -39,5 +39,26 @@ services:
     depends_on:
       - api
 
+  # OFF by default. Enable with: docker compose --profile scheduler up -d scheduler
+  # (run `make migrate` first). Alternative: plain cron, e.g. in your crontab (06:00 daily):
+  #   0 6 * * * cd /path/to/repo && TZ=America/Phoenix make ingest >> data/ingest.log 2>&1
+  scheduler:
+    profiles: ["scheduler"]
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    command: ["python", "-m", "shortlist_ml.ingest", "schedule", "--at", "06:00"]
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-shortlist}:${POSTGRES_PASSWORD:-shortlist_dev_only}@db:5432/${POSTGRES_DB:-shortlist}
+      TIMEZONE: ${TIMEZONE:-America/Phoenix}
+      RAW_RETENTION_DAYS: ${RAW_RETENTION_DAYS:-14}
+    volumes:
+      - ./companies.yaml:/app/companies.yaml:ro
+      - ./data/raw:/app/data/raw
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   pgdata:

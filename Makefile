@@ -2,7 +2,7 @@
 -include .env
 export
 
-.PHONY: help up down logs dev install lint fmt typecheck test test-db check eval
+.PHONY: help up down logs dev install migrate ingest verify-companies reparse clean-raw lint fmt typecheck test test-db check eval
 
 help: ## Show available targets
 	@grep -hE '^[a-z-]+:.*## ' Makefile |awk -F':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
@@ -26,6 +26,21 @@ dev: ## DB in Docker; API + web natively with hot reload (Ctrl-C stops both)
 install: ## Install Python and web dependencies
 	uv sync
 	pnpm --dir apps/web install --frozen-lockfile
+
+migrate: ## Apply database migrations (needs the db up: `make up` or `docker compose up -d db`)
+	uv run alembic upgrade head
+
+ingest: ## Fetch boards in companies.yaml into the database (FORCE=1 to refetch today)
+	uv run python -m shortlist_ml.ingest run $(if $(FORCE),--force,)
+
+verify-companies: ## Check companies.candidates.yaml against live APIs; writes companies.yaml + docs/company-verification.md
+	uv run python -m shortlist_ml.ingest verify-companies
+
+reparse: ## Re-derive rule-based fields (location, seniority, ...) for stored postings after a rule change
+	uv run python -m shortlist_ml.ingest reparse
+
+clean-raw: ## Delete raw API files older than RAW_RETENTION_DAYS (DRY=1 to preview)
+	uv run python -m shortlist_ml.ingest clean-raw $(if $(DRY),--dry-run,)
 
 lint: ## ruff (lint + format check) and eslint
 	uv run ruff check .
