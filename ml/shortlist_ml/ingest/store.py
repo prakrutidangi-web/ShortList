@@ -26,7 +26,8 @@ DROP_GUARD_FRACTION = 0.5
 class StoreResult:
     fetched: int = 0
     new: int = 0
-    updated: int = 0
+    updated: int = 0  # real content edits only
+    reopened: int = 0  # closed postings that reappeared (not edits)
     closed: int = 0
     skipped_by_guard: int = 0
     guard_reason: str | None = None
@@ -71,16 +72,13 @@ def apply_snapshot(
             result.new += 1
             continue
         row.last_seen_at = now
-        changed = False
-        if row.closed_at is not None:  # reappeared
+        if row.closed_at is not None:  # reappeared: reopen, counted separately from edits
             row.closed_at = None
-            changed = True
+            result.reopened += 1
         if row.content_hash != p.content_hash:  # edited in place: NOT a repost
             _copy_fields(row, p)
             row.dedup_key = dedup_key(company.id, p)
             row.updated_at = now
-            changed = True
-        if changed:
             result.updated += 1
 
     seen = {(p.source, p.external_id) for p in incoming.values()}

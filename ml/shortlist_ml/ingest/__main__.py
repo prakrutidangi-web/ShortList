@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 
 from shortlist_ml.config import get_settings
 from shortlist_ml.db.session import make_engine, make_session_factory
-from shortlist_ml.ingest import rawstore
+from shortlist_ml.ingest import audit, rawstore
 from shortlist_ml.ingest.companies import load_companies
 from shortlist_ml.ingest.http import Fetcher, RateLimiter, make_client
 from shortlist_ml.ingest.report import build_report
@@ -38,12 +38,12 @@ def cmd_run(args: argparse.Namespace) -> int:
     factory = make_session_factory(make_engine(s.database_url))
     runs = run_all(factory, companies, _fetcher(), s, force=args.force)
     print(
-        f"{'company':28} {'status':8} {'fetched':>7} {'new':>5} {'upd':>5} {'closed':>6} {'fail':>5} {'guard':>5}"
+        f"{'company':28} {'status':8} {'fetched':>7} {'new':>5} {'upd':>5} {'reopen':>6} {'closed':>6} {'fail':>5} {'guard':>5}"
     )
     names = {c.board_token: c.name for c in companies}
     for cfg, r in zip(companies, runs, strict=True):
         print(
-            f"{names[cfg.board_token][:28]:28} {r.status:8} {r.fetched:7} {r.new:5} {r.updated:5} "
+            f"{names[cfg.board_token][:28]:28} {r.status:8} {r.fetched:7} {r.new:5} {r.updated:5} {r.reopened:6} "
             f"{r.closed:6} {r.failed:5} {r.skipped_by_guard:5}"
             + (f"  [{r.error}]" if r.error else "")
         )
@@ -78,6 +78,23 @@ def cmd_report(args: argparse.Namespace) -> int:
         text = build_report(session)
     args.out.write_text(text)
     print(f"wrote {args.out}")
+    return 0
+
+
+def cmd_audit_sample(args: argparse.Namespace) -> int:
+    s = get_settings()
+    with make_session_factory(make_engine(s.database_url))() as session:
+        rows = audit.make_sample(session, args.seed, args.n_each)
+    args.key.parent.mkdir(parents=True, exist_ok=True)
+    audit.write_files(rows, args.blind, args.key)
+    print(
+        f"wrote blind sample {args.blind} ({len(rows)} rows, no rule output) and key {args.key} (keep local)"
+    )
+    return 0
+
+
+def cmd_audit_compare(args: argparse.Namespace) -> int:
+    print(audit.compare(args.key, args.labels, args.other_labels))
     return 0
 
 
@@ -130,6 +147,17 @@ def main(argv: list[str] | None = None) -> int:
     p_rep = sub.add_parser("report", help="write per-company counts and run statistics as markdown")
     p_rep.add_argument("--out", type=Path, default=Path("docs/ingest-report.md"))
     p_rep.set_defaults(fn=cmd_report)
+    p_as = sub.add_parser("audit-sample", help="draw a blind audit sample (blind CSV + local key)")
+    p_as.add_argument("--seed", type=int, required=True)
+    p_as.add_argument("--n-each", type=int, default=25)
+    p_as.add_argument("--blind", type=Path, required=True)
+    p_as.add_argument("--key", type=Path, required=True)
+    p_as.set_defaults(fn=cmd_audit_sample)
+    p_ac = sub.add_parser("audit-compare", help="score the rules against a filled-in label CSV")
+    p_ac.add_argument("--key", type=Path, required=True)
+    p_ac.add_argument("--labels", type=Path, required=True)
+    p_ac.add_argument("--other-labels", type=Path)
+    p_ac.set_defaults(fn=cmd_audit_compare)
     p_cl = sub.add_parser("clean-raw", help="delete raw files past the retention window")
     p_cl.add_argument("--keep-days", type=int)
     p_cl.add_argument("--dry-run", action="store_true")

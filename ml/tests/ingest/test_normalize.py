@@ -70,6 +70,22 @@ def test_html_to_text_structure_and_entities() -> None:
             ("San Francisco", "CA", "US", True),
         ),
         ("Hybrid - San Francisco, New York City, Austin", ("San Francisco", None, None, False)),
+        # Third-round cleanup: "Region - City" formats, office codes and "Office" suffixes
+        ("Wisconsin - Madison", ("Madison", "WI", "US", False)),
+        ("New Jersey - Lyndhurst", ("Lyndhurst", "NJ", "US", False)),
+        ("Massachusetts - Boston", ("Boston", "MA", "US", False)),
+        ("Poland - Warsaw", ("Warsaw", None, "PL", False)),
+        ("Washington - DC", ("Washington", "DC", "US", False)),
+        ("Germany - Berlin", ("Berlin", None, "DE", False)),
+        ("USA - Austin (dbt)", ("Austin", None, "US", False)),
+        ("Canada - Toronto, ON", ("Toronto", "ON", "CA", False)),
+        ("NY - New York", ("New York", "NY", "US", False)),
+        ("San Francisco - SF9", ("San Francisco", None, None, False)),
+        ("Austin (TX) Office", ("Austin", "TX", "US", False)),
+        (
+            "San Francisco - Mission Bay",
+            ("San Francisco - Mission Bay", None, None, False),
+        ),  # not a region
         (None, (None, None, None, None)),
         ("  ", (None, None, None, None)),
     ],
@@ -144,6 +160,10 @@ def test_extract_years_returns_the_matched_text() -> None:
         ("Data Engineer III", 3),
         ("Analyst 2", 2),
         ("Software Engineer II, Backend", 2),
+        ("Power System \u2013 High-Voltage Test Engineer II \u2013 Electric Power", 2),
+        ("Software Engineer II - EDR Workflows - Security", 2),
+        ("Engineer III - Platform", 3),
+        ("Senior Engineer - Platform", None),
         ("Software Engineer I, Early Career (London)", 1),
         ("Software Engineer", None),
         ("Phase I Clinical Lead", None),  # 'I' is not the last word
@@ -184,6 +204,16 @@ def test_level_suffix(title: str, expected: int | None) -> None:
             False,
             None,
         ),  # level II beats a phrase
+        # Level II hidden behind a dash separator must still beat the early-career phrase (audit round-2 gap)
+        (
+            "Test Engineer II \u2013 Electric Power",
+            "an early-career program",
+            None,
+            "mid",
+            False,
+            None,
+        ),
+        ("Software Engineer II - EDR Workflows - Security", "", None, "mid", False, None),
         ("Data Engineer III", "", None, "senior", False, None),
         # interns are not entry-level
         ("Software Engineering Intern", "new grad", None, "intern", False, None),

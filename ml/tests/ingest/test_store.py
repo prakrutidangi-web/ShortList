@@ -47,7 +47,8 @@ def test_timestamps_across_open_close_reopen(
 
     r2 = apply_snapshot(session, company, [post("a"), post("b")], t2)  # b reappears
     b = rows(session)["b"]
-    assert r2.updated == 1 and r2.new == 0
+    # A reopen is counted as a reopen, NOT as an edit.
+    assert (r2.reopened, r2.updated, r2.new) == (1, 0, 0)
     assert b.first_seen_at == t0 and b.last_seen_at == t2 and b.closed_at is None
     assert b.updated_at is None  # reopening is not a content edit
 

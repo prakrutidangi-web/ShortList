@@ -30,6 +30,7 @@ class _Outcome:
     fetched: int = 0
     new: int = 0
     updated: int = 0
+    reopened: int = 0
     closed: int = 0
     failed: int = 0
     skipped_by_guard: int = 0
@@ -105,6 +106,7 @@ def _process(
         stats.updated,
         stats.closed,
     )
+    out.reopened = stats.reopened
     out.skipped_by_guard, out.failed = stats.skipped_by_guard, parsed.failed
     out.status = "guarded" if stats.guard_reason else "ok"
     if stats.guard_reason:
@@ -140,6 +142,7 @@ def ingest_company(
         fetched=out.fetched,
         new=out.new,
         updated=out.updated,
+        reopened=out.reopened,
         closed=out.closed,
         failed=out.failed,
         skipped_by_guard=out.skipped_by_guard,

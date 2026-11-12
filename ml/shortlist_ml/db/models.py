@@ -1,9 +1,19 @@
-from datetime import datetime
+from datetime import date, datetime
 
-from sqlalchemy import Boolean, ForeignKey, Index, Integer, String, Text, UniqueConstraint
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Date,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from shortlist_ml.db.types import UTCDateTime
+from shortlist_ml.db.types import EmbeddingVector, UTCDateTime
 
 
 class Base(DeclarativeBase):
@@ -45,7 +55,10 @@ class IngestionRun(Base):
     http_status: Mapped[int | None] = mapped_column(Integer)
     fetched: Mapped[int] = mapped_column(Integer, default=0)  # postings in the payload
     new: Mapped[int] = mapped_column(Integer, default=0)
-    updated: Mapped[int] = mapped_column(Integer, default=0)  # edited or reopened
+    updated: Mapped[int] = mapped_column(Integer, default=0)  # real content edits
+    reopened: Mapped[int] = mapped_column(
+        Integer, default=0, server_default="0"
+    )  # closed postings that reappeared
     closed: Mapped[int] = mapped_column(Integer, default=0)
     failed: Mapped[int] = mapped_column(
         Integer, default=0
@@ -81,6 +94,7 @@ class Posting(Base):
     country: Mapped[str | None] = mapped_column(String(100))
     is_remote: Mapped[bool | None] = mapped_column(Boolean)
 
+    role_family: Mapped[str | None] = mapped_column(String(24))  # rule-based; see skills/extract.py
     years_min: Mapped[int | None] = mapped_column(
         Integer
     )  # headline requirement: max of the 'N years' lower bounds
@@ -109,3 +123,55 @@ class Posting(Base):
     # NULL => this posting is the root of its repost group. Otherwise points at the root (the
     # earliest-seen posting with the same dedup_key). Group id = COALESCE(canonical_id, id).
     canonical_id: Mapped[int | None] = mapped_column(ForeignKey("postings.id"), index=True)
+
+
+class PostingSkill(Base):
+    """Skills found in a posting by the curated dictionary (skills/skills.yaml)."""
+
+    __tablename__ = "posting_skills"
+
+    posting_id: Mapped[int] = mapped_column(
+        ForeignKey("postings.id", ondelete="CASCADE"), primary_key=True
+    )
+    skill: Mapped[str] = mapped_column(String(64), primary_key=True, index=True)
+
+
+class PostingEmbedding(Base):
+    """Embedding of the compact posting document. `text_hash` + `model` decide when to re-embed."""
+
+    __tablename__ = "posting_embeddings"
+
+    posting_id: Mapped[int] = mapped_column(
+        ForeignKey("postings.id", ondelete="CASCADE"), primary_key=True
+    )
+    model: Mapped[str] = mapped_column(String(100))
+    text_hash: Mapped[str] = mapped_column(String(64))
+    embedding: Mapped[list[float]] = mapped_column(EmbeddingVector)
+    updated_at: Mapped[datetime] = mapped_column(UTCDateTime)
+
+
+class UserProfile(Base):
+    """Confirmed, derived profile. Never holds raw resume text or contact details (see ADR 0013)."""
+
+    __tablename__ = "user_profiles"
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+    skills: Mapped[list[str]] = mapped_column(JSON)
+    target_roles: Mapped[list[str]] = mapped_column(JSON)  # role families
+    target_locations: Mapped[list[str]] = mapped_column(JSON)  # free text, matched against postings
+    remote_ok: Mapped[bool] = mapped_column(Boolean, default=True)
+    grad_date: Mapped[date | None] = mapped_column(Date)
+    needs_sponsorship: Mapped[bool] = mapped_column(Boolean, default=False)
+    about_text: Mapped[str | None] = mapped_column(Text)  # optional, typed by the user
+    profile_document: Mapped[str] = mapped_column(Text)  # the exact text that was embedded
+    updated_at: Mapped[datetime] = mapped_column(UTCDateTime)
+
+
+class ProfileEmbedding(Base):
+    __tablename__ = "profile_embeddings"
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+    model: Mapped[str] = mapped_column(String(100))
+    text_hash: Mapped[str] = mapped_column(String(64))
+    embedding: Mapped[list[float]] = mapped_column(EmbeddingVector)
+    updated_at: Mapped[datetime] = mapped_column(UTCDateTime)

@@ -77,8 +77,8 @@ def build_report(session: Session, now: datetime | None = None) -> str:
         "",
         "Latest run per company, then totals over all runs.",
         "",
-        "| Company | Status | Started (UTC) | Fetched | New | Updated | Closed | Failed | Skipped by guard |",
-        "|---|---|---|---:|---:|---:|---:|---:|---:|",
+        "| Company | Status | Started (UTC) | Fetched | New | Updated | Reopened | Closed | Failed | Skipped by guard |",
+        "|---|---|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     latest = (
         select(IngestionRun.company_id, func.max(IngestionRun.id).label("rid"))
@@ -93,7 +93,7 @@ def build_report(session: Session, now: datetime | None = None) -> str:
     ).all()
     for name, r in runs:
         lines.append(
-            f"| {name} | {r.status} | {r.started_at:%Y-%m-%d %H:%M} | {r.fetched} | {r.new} | {r.updated} | "
+            f"| {name} | {r.status} | {r.started_at:%Y-%m-%d %H:%M} | {r.fetched} | {r.new} | {r.updated} | {r.reopened} | "
             f"{r.closed} | {r.failed} | {r.skipped_by_guard} |"
         )
     agg = session.execute(
@@ -103,6 +103,7 @@ def build_report(session: Session, now: datetime | None = None) -> str:
             func.sum(IngestionRun.fetched),
             func.sum(IngestionRun.new),
             func.sum(IngestionRun.updated),
+            func.sum(IngestionRun.reopened),
             func.sum(IngestionRun.closed),
             func.sum(IngestionRun.failed),
             func.sum(IngestionRun.skipped_by_guard),
@@ -114,8 +115,8 @@ def build_report(session: Session, now: datetime | None = None) -> str:
         "",
         "Totals over all runs, by status:",
         "",
-        "| Status | Runs | Fetched | New | Updated | Closed | Failed | Skipped by guard |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|",
+        "| Status | Runs | Fetched | New | Updated | Reopened | Closed | Failed | Skipped by guard |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for status, *vals in agg:
         lines.append(f"| {status} | " + " | ".join(str(int(v or 0)) for v in vals) + " |")

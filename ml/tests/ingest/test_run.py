@@ -283,4 +283,72 @@ def test_report_counts_and_runs(
     assert "| Acme | greenhouse | 3 | 2 | 0 | 3 | 0 | 1 | 0 |" in text
     assert "| Beta | lever | 2 | 1 | 0 | 1 | 0 | 1 | 0 |" in text
     assert "| **Total** | | **5** |" in text
-    assert "| ok | 2 | 5 | 5 | 0 | 0 | 0 | 0 |" in text
+    assert (
+        "| ok | 2 | 5 | 5 | 0 | 0 | 0 | 0 | 0 |" in text
+    )  # runs, fetched, new, updated, reopened, closed, failed, guard
+
+
+# ---- end-to-end close -> reopen through the whole pipeline (fetch -> raw file -> parse -> store -> run row)
+def _gh_payload(jobs: list[dict], keep: list[int], edit: dict[int, str] | None = None) -> bytes:  # type: ignore[type-arg]
+    chosen = []
+    for j in jobs:
+        if j["id"] in keep:
+            j = dict(j)
+            if edit and j["id"] in edit:
+                j["content"] = edit[j["id"]]
+            chosen.append(j)
+    return json.dumps({"jobs": chosen}).encode()
+
+
+def test_end_to_end_close_then_reopen(
+    factory: sessionmaker[Session],
+    net: Net,
+    fetcher_for: FetcherFor,
+    settings: Settings,
+    t0: datetime,
+) -> None:
+    jobs = json.loads(net.gh)["jobs"]  # ids 1001, 1002, 1003
+    day1, day2, day3 = t0, t0 + DAY, t0 + 2 * DAY
+
+    (r1,) = run_all(factory, [ACME], fetcher_for(net), settings, clock=lambda: day1)
+    assert (r1.new, r1.closed, r1.reopened) == (3, 0, 0)
+
+    # Day 2: posting 1003 disappears from the board (2 of 3 kept: not a >50% drop, so it is trusted).
+    net.gh = _gh_payload(jobs, [1001, 1002])
+    (r2,) = run_all(factory, [ACME], fetcher_for(net), settings, clock=lambda: day2)
+    assert (r2.status, r2.closed, r2.reopened, r2.updated) == ("ok", 1, 0, 0)
+    with factory() as s:
+        p = s.scalars(select(Posting).where(Posting.external_id == "1003")).one()
+        assert p.closed_at == day2 and p.last_seen_at == day1 and p.first_seen_at == day1
+
+    # Day 3: it comes back unchanged -> reopened, and NOT counted as an edit.
+    net.gh = _gh_payload(jobs, [1001, 1002, 1003])
+    (r3,) = run_all(factory, [ACME], fetcher_for(net), settings, clock=lambda: day3)
+    assert (r3.status, r3.reopened, r3.updated, r3.closed, r3.new) == ("ok", 1, 0, 0, 0)
+    with factory() as s:
+        p = s.scalars(select(Posting).where(Posting.external_id == "1003")).one()
+        assert p.closed_at is None  # reopened
+        assert p.first_seen_at == day1 and p.last_seen_at == day3
+        assert p.updated_at is None  # reopening is not a content edit
+        assert s.scalar(select(func.count()).select_from(Posting)) == 3  # same row, no duplicate
+
+
+def test_end_to_end_reopen_with_an_edit_counts_both(
+    factory: sessionmaker[Session],
+    net: Net,
+    fetcher_for: FetcherFor,
+    settings: Settings,
+    t0: datetime,
+) -> None:
+    jobs = json.loads(net.gh)["jobs"]
+    run_all(factory, [ACME], fetcher_for(net), settings, clock=lambda: t0)
+    net.gh = _gh_payload(jobs, [1001, 1002])
+    run_all(factory, [ACME], fetcher_for(net), settings, clock=lambda: t0 + DAY)
+    net.gh = _gh_payload(
+        jobs, [1001, 1002, 1003], edit={1003: "&lt;p&gt;Rewritten description.&lt;/p&gt;"}
+    )
+    (r3,) = run_all(factory, [ACME], fetcher_for(net), settings, clock=lambda: t0 + 2 * DAY)
+    assert (r3.reopened, r3.updated) == (1, 1)
+    with factory() as s:
+        p = s.scalars(select(Posting).where(Posting.external_id == "1003")).one()
+        assert p.closed_at is None and p.updated_at == t0 + 2 * DAY

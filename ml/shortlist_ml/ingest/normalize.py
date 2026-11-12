@@ -128,7 +128,7 @@ _REMOTE_RE = re.compile(r"\bremote\b", re.I)
 _WORK_MODE_RE = re.compile(r"[\s(\-\u2013]*\b(?:remote|hybrid|on-?site|in[- ]office)\b[)\s]*", re.I)
 # Tokens that carry no place information; removed before parsing.
 _JUNK_RE = re.compile(
-    r"\b(?:n/a|na|distributed|metro area|remote[- ]friendly|travel[- ]required|multiple locations|anywhere)\b"
+    r"\b(?:n/a|na|distributed|metro area|remote[- ]friendly|travel[- ]required|multiple locations|anywhere|(?<!in-)(?<!in )office|hq|headquarters|campus)\b"
     r"|:\s*(?:select|all)\s+locations",
     re.I,
 )
@@ -168,7 +168,25 @@ def _parse_one(
     """Parse a single location; None if it has no place information at all."""
     text = _WORK_MODE_RE.sub(
         " ", _JUNK_RE.sub(" ", text)
-    )  # junk first: "Remote-Friendly" is junk, not remote
+    ).strip()  # junk first: "Remote-Friendly" is junk, not remote
+    if re.fullmatch(r"washington\s*[-\u2013]\s*d\.?c\.?", text, re.I):  # not Washington state
+        return "Washington", "DC", "US"
+    # "Region - City" (Veeva-style "Poland - Warsaw", "New Jersey - Lyndhurst", "USA - Austin (dbt)")
+    # and "City - OFFICECODE" ("San Francisco - SF9"). Handled before parentheses are rewritten.
+    if m := re.match(r"^(.+?)\s+[-\u2013\u2014]\s+(.+)$", text):
+        left, right = m.group(1).strip(), m.group(2).strip()
+        if left.lower() in _COUNTRY_ALIASES:
+            left_country = normalize_country(left)
+            return _parse_one(right, left_country) or (None, None, left_country)
+        if hit := _as_region(left):
+            inner = _parse_one(right, hit[1])
+            return (
+                (inner[0] if inner else None),
+                hit[0],
+                (inner[2] if inner and inner[2] else hit[1]),
+            )
+        if re.fullmatch(r"[A-Z]{2,4}\d{1,3}", right):
+            return _parse_one(left, trailing_country)
     text = text.replace("(", ",").replace(")", ",")
     parts = [p.strip(" -\u2013") for p in text.split(",")]
     parts = [p for p in parts if p]
@@ -297,7 +315,8 @@ def level_suffix(title: str) -> int | None:
     title or in any comma segment ('Software Engineer II, Backend'). Parenthetical text is ignored.
     'll' / 'lll' (lowercase L's typed for II/III) are accepted."""
     stripped = re.sub(r"\([^)]*\)", " ", title)
-    for segment in (seg.strip() for seg in stripped.split(",")):
+    # Segments are separated by commas or spaced dashes: "Engineer II - EDR Workflows - Security".
+    for segment in (seg.strip() for seg in re.split(r",|\s[-\u2013\u2014]\s", stripped)):
         m = _LEVEL_SUFFIX_RE.match(segment)
         if m and len(m.group("base").split()) >= 1:
             return _LEVELS[m.group("lvl").lower()]
