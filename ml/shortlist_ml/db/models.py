@@ -81,10 +81,19 @@ class Posting(Base):
     country: Mapped[str | None] = mapped_column(String(100))
     is_remote: Mapped[bool | None] = mapped_column(Boolean)
 
-    years_min: Mapped[int | None] = mapped_column(Integer)
+    years_min: Mapped[int | None] = mapped_column(
+        Integer
+    )  # headline requirement: max of the 'N years' lower bounds
     seniority: Mapped[str] = mapped_column(String(16))  # intern|entry|mid|senior|unknown
+    # Soft signal, never a gate. entry_evidence says which rule fired: title_keyword | phrase | years
+    # (NULL when not entry-level); entry_evidence_text is the matched text.
     is_entry_level: Mapped[bool] = mapped_column(Boolean)
-    sponsorship: Mapped[str] = mapped_column(String(16))  # restricted|sponsors|unknown
+    entry_evidence: Mapped[str | None] = mapped_column(String(16))
+    entry_evidence_text: Mapped[str | None] = mapped_column(String(300))
+    # restricted | offered | unclear. 'unclear' = not mentioned (evidence NULL) or hedged/contradictory
+    # (evidence = the sentence). A UI warning only; never used to filter.
+    sponsorship: Mapped[str] = mapped_column(String(16))
+    sponsorship_evidence: Mapped[str | None] = mapped_column(Text)
 
     # Timestamps. first/last_seen/closed are OUR observation times (UTC) and drive time-based
     # splits; source_* are whatever the ATS reports (may be missing or unreliable).
