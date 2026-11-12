@@ -1,0 +1,97 @@
+[
+  {
+    "id": "ab7e3425-81d5-4705-a7b5-cd60c8a45cdb",
+    "text": "Backend Software Engineer - Application Development",
+    "categories": {
+      "commitment": "Full-time",
+      "location": "New York, NY",
+      "team": "Dev",
+      "allLocations": [
+        "New York, NY"
+      ]
+    },
+    "country": "US",
+    "workplaceType": "hybrid",
+    "createdAt": 1710191082166,
+    "hostedUrl": "https://jobs.lever.co/palantir/ab7e3425-81d5-4705-a7b5-cd60c8a45cdb",
+    "applyUrl": "https://jobs.lever.co/palantir/ab7e3425-81d5-4705-a7b5-cd60c8a45cdb/apply",
+    "description": "<div><strong><span style=\"font-size: 18px;\">A World-Changing Company</span></strong></div>\n<div>&nbsp;</div>\n<div>Palantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more.</div><div><br></div><div><strong style=\"font-size: 18px;\">The Role</strong></div>\n<div>&nbsp;</div>\n<div><strong>Backend Software Engineers</strong> at Palantir build software at scale to transform how organisations use data. Our Software Engineers are involved throughout the product lifecycle, from idea generation, design, prototyping, and production delivery. You will collaborate closely with technical and non-technical teammates to understand our customers' problems and build products that solve them. We encourage movement across teams to share context, skills, and experience, so you'll learn about many different technologies and aspects of each product. Engineers work autonomously and make decisions independently, within a community that will support and challenge you as you grow and develop, becoming a strong technical contributor and engineering leader.</div>\n<div>&nbsp;</div>\n<div>Your day-to-day workflow will vary, adapting to the requirements of our users and the technical challenges that arise. One day, you may find yourself collaborating with other engineers to architect a new system that enables a novel workflow, the next you could be fine-tuning performance to enable low-latency operational outcomes.</div>\n<div>&nbsp;</div>\n<div>Our Product Development organisation is made up of small teams of Software Engineers. Each team focuses on a specific aspect of a product and work co",
+    "descriptionPlain": "A World-Changing Company\n \nPalantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more.\n\n\nThe Role\n \nBackend Software Engineers at Palantir build software at scale to transform how organisations use data. Our Software Engineers are involved throughout the product lifecycle, from idea generation, design, prototyping, and production delivery. You will collaborate closely with technical and non-technical teammates to understand our customers' problems and build products that solve them. We encourage movement across teams to share context, skills, and experience, so you'll learn about many different technologies and aspects of each product. Engineers work autonomously and make decisions independently, within a community that will support and challenge you as you grow and develop, becoming a strong technical contributor and engineering leader.\n \nYour day-to-day workflow will vary, adapting to the requirements of our users and the technical challenges that arise. One day, you may find yourself collaborating with other engineers to architect a new system that enables a novel workflow, the next you could be fine-tuning performance to enable low-latency operational outcomes.\n \nOur Product Development organisation is made up of small teams of Software Engineers. Each team focuses on a specific aspect of a product and work collaboratively to build cross functional capabilities, streamline user workflows and continuously improve our software's efficiency and reliability.\n ",
+    "lists": [
+      {
+        "text": "Core Responsiblities",
+        "content": "\n<li>Architecting, developing, and maintaining high-performance, scalable backend services that underpin our our operational data and AI systems</li>\n<li>Maintaining high coding standards through the development of guidelines, active participation in code reviews, and fostering a culture of continuous improvement and knowledge sharing among your team</li>\n<li>Building robust APIs for use by front-end developers and interfacing external systems, and collaborating with front-end developers to integrate user-facing elements with server-side logic</li>\n<li>Designing efficient data structures and algorithms to manage large-scale and high throughput data</li>\n<li>Optimizing applications for speed and scalability through performance analysis</li>\n<li>Actively improve user workflows by collaborati"
+      },
+      {
+        "text": "Technologies We Use",
+        "content": "\n<li>Different backend languages, including Java, Rust, Python and Go</li>\n<li>Distributed systems technologies such as Kafka, Cassandra, Elasticsearch and Spark</li>\n<li>Docker and Kubernetes for containerization and orchestration</li>\n<li>Industry-standard build tooling, including Gradle and GitHub</li>\n"
+      }
+    ],
+    "additional": "",
+    "additionalPlain": ""
+  },
+  {
+    "id": "01a2d105-fe26-495e-bd62-c0aeb11cdbdd",
+    "text": "Engineering Technician 4, Quality Assurance (R5977)",
+    "categories": {
+      "commitment": "Full Time Employee",
+      "department": "Aircraft Operations Division",
+      "location": "Remote",
+      "team": "Quality",
+      "allLocations": [
+        "Remote"
+      ]
+    },
+    "country": "US",
+    "workplaceType": "remote",
+    "createdAt": 1790283622513,
+    "hostedUrl": "https://jobs.lever.co/shieldai/01a2d105-fe26-495e-bd62-c0aeb11cdbdd",
+    "applyUrl": "https://jobs.lever.co/shieldai/01a2d105-fe26-495e-bd62-c0aeb11cdbdd/apply",
+    "description": "<div><span data-contrast=\"auto\">Shield AI is a venture-backed defense-tech company with the mission of protecting service members and civilians with intelligent systems. Its products include Hivemind autonomy software, V-BAT and X-BAT&nbsp;aircraft, and Aechelon simulation and synthetic reality technologies. With offices and facilities across the U.S., Europe, the Middle East, and Asia-Pacific, Shield AI’s technology actively supports operations worldwide. For more information, visit&nbsp;</span><a rel=\"noreferrer noopener\" href=\"https://shield.ai/\"><span data-ccp-charstyle=\"Hyperlink\">www.shield.ai</span></a><span data-contrast=\"auto\">. Follow Shield AI on&nbsp;</span><a rel=\"noreferrer noopener\" href=\"https://www.linkedin.com/company/shield-ai\"><span data-ccp-charstyle=\"Hyperlink\">LinkedIn</span></a><span data-contrast=\"auto\">,&nbsp;</span><a rel=\"noreferrer noopener\" href=\"https://x.com/shieldaitech\"><span data-ccp-charstyle=\"Hyperlink\">X</span></a><span data-contrast=\"auto\">,&nbsp;</span><a rel=\"noreferrer noopener\" href=\"https://www.instagram.com/shield_ai\"><span data-ccp-charstyle=\"Hyperlink\">Instagram</span></a><span data-contrast=\"auto\">, and&nbsp;</span><a rel=\"noreferrer noopener\" href=\"https://www.youtube.com/@Shield_AI\"><span data-ccp-charstyle=\"Hyperlink\">YouTube</span></a><span data-contrast=\"auto\">.</span><span data-ccp-props=\"{&quot;335559685&quot;:720}\">&nbsp;</span></div><div><br></div><h3>Job Description:</h3>\n<div>\n<p data-renderer-start-pos=\"19\">This Engineering Technician will support XBAT prototype ground testing and flight testing. This hands-on role will work closely with Quality, Manufacturing Engineering, Test Engineering, and Design Engineering to verify hardware quality, identify and investigate issues, and ensure prototype configurations an",
+    "descriptionPlain": "Shield AI is a venture-backed defense-tech company with the mission of protecting service members and civilians with intelligent systems. Its products include Hivemind autonomy software, V-BAT and X-BAT aircraft, and Aechelon simulation and synthetic reality technologies. With offices and facilities across the U.S., Europe, the Middle East, and Asia-Pacific, Shield AI’s technology actively supports operations worldwide. For more information, visit www.shield.ai. Follow Shield AI on LinkedIn, X, Instagram, and YouTube. \n\n\nJob Description:\nThis Engineering Technician will support XBAT prototype ground testing and flight testing. This hands-on role will work closely with Quality, Manufacturing Engineering, Test Engineering, and Design Engineering to verify hardware quality, identify and investigate issues, and ensure prototype configurations and test articles meet defined requirements.",
+    "lists": [
+      {
+        "text": "What you'll do:",
+        "content": "<div>\n\n<li>Perform in-process, final, pre-test, and post-test inspections of XBAT prototype hardware.</li>\n<li>Inspect mechanical, electrical, structural, composite, and electromechanical assemblies using appropriate measurement equipment.</li>\n<li>Verify hardware configuration, workmanship, dimensions, torque, installation, and traceability against engineering requirements.</li>\n<li>Support ground and flight test readiness by verifying required inspections and documentation are complete.</li>\n<li>Inspect and document hardware condition following testing, including damage, failures, and abnormal conditions.</li>\n<li>Collect objective evidence such as measurements, photographs, and inspection results to support engineering investigations.</li>\n<li>Identify, document, and contain nonconforma"
+      },
+      {
+        "text": "Required qualifications:",
+        "content": "<div>\n\n<li>10+ years of experience in aerospace, defense, manufacturing, aviation, or a related technical field.</li>\n<li>Experience supporting prototype development or flight testing.</li>\n<li>Experience with hands-on inspection, testing, manufacturing, or troubleshooting of complex aerospace hardware.</li>\n<li>Ability to read engineering drawings, specifications, and work instructions.</li>\n\n</div>"
+      }
+    ],
+    "additional": "",
+    "additionalPlain": ""
+  },
+  {
+    "id": "785989a6-b219-43b1-92d9-750a67054f24",
+    "text": "AV Engineer - Platform",
+    "categories": {
+      "commitment": "Permanent",
+      "department": "Engineering",
+      "location": "Stockholm",
+      "team": "IT and Network Engineering",
+      "allLocations": [
+        "Stockholm"
+      ]
+    },
+    "country": "SE",
+    "workplaceType": "onsite",
+    "createdAt": 1791537508142,
+    "hostedUrl": "https://jobs.lever.co/spotify/785989a6-b219-43b1-92d9-750a67054f24",
+    "applyUrl": "https://jobs.lever.co/spotify/785989a6-b219-43b1-92d9-750a67054f24/apply",
+    "description": "",
+    "descriptionPlain": "",
+    "lists": [
+      {
+        "text": "What You’ll Do",
+        "content": "<div>\n\n<li>Own the AV experience across EMEA, including meeting rooms, boardrooms, common areas, labs, lounges, and digital signage.</li>\n<li>Provide thoughtful, high-quality AV support for executive and VIP meetings, helping ensure technology works reliably when it matters most.</li>\n<li>Design, document, deliver, and maintain AV solutions and technical standards in partnership with the global AV team. Review technical designs and documentation from external integrators to ensure solutions meet requirements.</li>\n<li>Lead AV initiatives and projects with internal partners and external vendors, from defining scope through delivery, commissioning, and handover.</li>\n<li>Act as an escalation point for complex AV issues and support incident, problem, and change management when needed.</li>\n<l"
+      },
+      {
+        "text": "Who You Are",
+        "content": "<div>\n\n<li>You have 3+ years of AV experience and have delivered AV projects through design, integration, commissioning, and ongoing support.</li>\n<li>You understand the hardware behind sophisticated AV systems, including DSP, control processors, amplifiers, and related technologies, with experience using platforms such as Crestron, Q-SYS, and Dante. Experience configuring Q-SYS designs is a plus, as are certifications such as AVIXA CTS, Q-SYS Level 2, or Dante Level 3.</li>\n<li>You have hands-on experience deploying, managing, and monitoring video conferencing systems such as Google Meet hardware and Zoom Rooms. You're familiar with fleet management and monitoring tools and can troubleshoot issues across connected AV systems.</li>\n<li>You have experience supporting senior executives or VI"
+      }
+    ],
+    "additional": "",
+    "additionalPlain": ""
+  }
+]

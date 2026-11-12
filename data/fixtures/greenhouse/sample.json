@@ -1,0 +1,76 @@
+{
+  "jobs": [
+    {
+      "id": 8008649003,
+      "title": "Software Engineer, Early Career (NYC)",
+      "updated_at": "2026-11-03T16:50:38-05:00",
+      "first_published": "2026-10-06T15:02:34-04:00",
+      "location": {
+        "name": "New York, New York, United States"
+      },
+      "absolute_url": "https://job-boards.greenhouse.io/affirm/jobs/8008649003",
+      "language": "en",
+      "content": "&lt;div class=&quot;content-intro&quot;&gt;&lt;p&gt;At Affirm, we exist for the moments that matter—giving people a clear, predictable way to pay over time, with no hidden fees, no surprises, and no tradeoffs on what matters most.&lt;/p&gt;&lt;/div&gt;&lt;p data-pm-slice=&quot;1 1 []&quot;&gt;Affirm is reinventing credit to make it more honest and friendly, giving consumers the flexibility to buy now and pay later without any hidden fees or compounding interest.&lt;br&gt;&lt;br&gt;We’re excited to welcome a new cohort of graduates with a computer science or related major who are ready to leverage their skills to drive real-world impact and shape the future of finance! &lt;br&gt;&lt;br&gt;In our hybrid early career program, you’ll be paired with a tenured Affirmer and have an opportunity to collaborate in-person 3 days a week out of our New York City, or San Francisco offices. You&#39;ll experience the best of both worlds: the in-office experience and remote work. After the one-year, you can remain hybrid, go remote, or stay in an office. Opportunities are available across different tech stacks and teams so that you can find a perfect fit to launch your career with Affirm!&lt;/p&gt;\n&lt;p data-pm-slice=&quot;1 1 []&quot;&gt;&lt;br&gt;&lt;strong&gt;What You&#39;ll Do&lt;/strong&gt;&lt;/p&gt;",
+      "departments": [
+        {
+          "name": "Financial Platforms - Engineering"
+        }
+      ],
+      "offices": [
+        {
+          "name": "New York City",
+          "location": "New York, New York, United States"
+        }
+      ]
+    },
+    {
+      "id": 8883003002,
+      "title": "Director, Analytics Engineering ",
+      "updated_at": "2026-11-06T15:25:07-05:00",
+      "first_published": "2026-10-13T10:52:13-04:00",
+      "location": {
+        "name": "Remote, Canada; Remote, United States"
+      },
+      "absolute_url": "https://job-boards.greenhouse.io/gitlab/jobs/8883003002",
+      "language": "en",
+      "content": "&lt;div class=&quot;content-intro&quot;&gt;&lt;p&gt;GitLab is the intelligent orchestration platform for DevSecOps. GitLab enables organizations to increase developer productivity, improve operational efficiency, reduce security and compliance risk, and accelerate digital transformation. More than 50 million registered users and more than 50% of the Fortune 100* trust GitLab to ship better, more secure software faster.&lt;/p&gt;\n&lt;p&gt;The same principles built into our products are reflected in how our team works: we embrace AI as a core productivity multiplier, with all team members expected to incorporate AI into their daily workflows to drive efficiency, innovation, and impact. GitLab is where careers accelerate, innovation flourishes, and every voice is valued. Our high-performance culture is driven by our values&amp;nbsp;and continuous knowledge exchange, enabling our team members to reach their full potential while collaborating with industry leaders to solve complex problems. &lt;a href=&quot;https://www.youtube.com/watch?v=OuZIb5zszQI&quot;&gt;Co-create the future with us&lt;/a&gt; as we build technology that transforms how the world develops software.&lt;/p&gt;\n&lt;p&gt;*&lt;em&gt;Fortune 500® is a registered trademark of Fortune Media IP Limited, used under license. Claim based on GitLab data. Fortune 100 refers to the top 20% ranked companies in the 2025 Fortune 500 list, published in June 2025. Fortune and Fortune Media IP Limited are not affiliated with, and do not endorse products or services of GitLab.&lt;/em&gt;&lt;/p&gt;",
+      "departments": [
+        {
+          "name": "Data"
+        }
+      ],
+      "offices": [
+        {
+          "name": "United States of America",
+          "location": null
+        }
+      ]
+    },
+    {
+      "id": 8175471,
+      "title": "Analytics Engineer Intern",
+      "updated_at": "2026-10-30T11:01:52-04:00",
+      "first_published": "2026-09-08T18:20:56-04:00",
+      "location": {
+        "name": "Hybrid - New York, NY"
+      },
+      "absolute_url": "https://www.coinbase.com/careers/positions/8175471?gh_jid=8175471",
+      "language": "en",
+      "content": "&lt;div class=&quot;content-intro&quot;&gt;&lt;p&gt;Ready to do the most impactful work of your career? At&amp;nbsp;&lt;a href=&quot;https://www.coinbase.com/?utm_campaign=mt_o_m_w_m_m__coi_0_jd-onchain&amp;amp;utm_source=coinbase&quot;&gt;Coinbase&lt;/a&gt;, we are uncompromising on our mission to increase economic freedom. The bar is high, the environment is intense, and we like it that way. This isn&#39;t a place for complacency, it’s a place to be pushed past your perceived limits. If you&#39;re ready to build the future of finance alongside people who refuse to settle for &quot;good enough,&quot; you belong here. Coinbase is a remote-first, but not remote-only company. Expect to get together quarterly for intense in-person working sessions called “surges.”&amp;nbsp;&lt;a href=&quot;https://www.coinbase.com/careers&quot;&gt;Learn more about working at Coinbase&lt;/a&gt;.&lt;/p&gt;\n&lt;div id=&quot;fortidlp-input-element-parent&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;p&gt;This is a 12-week internship during summer 2027.&lt;/p&gt;\n&lt;p&gt;You&#39;ll join the Analytics Engineering team within Platform, which builds and maintains the trusted data infrastructure that powers decision-making across Coinbase. As an Analytics Engineer Intern, you&#39;ll model complex data, build scalable pipelines, and deliver insights that help teams across the company unlock the full potential of our data. You will gain hands-on experience building production data systems at scale, mentorship from senior analytics engineers, and exposure to how data powers decision-making across a publicly traded crypto-native company.&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;What you&#39;ll do:&lt;/strong&gt;&lt;/p&gt;",
+      "departments": [
+        {
+          "name": "Internships & Emerging Talent Positions"
+        }
+      ],
+      "offices": [
+        {
+          "name": "US - Remote Zone 1 (Job Requisitions Only)",
+          "location": null
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "total": 3
+  }
+}

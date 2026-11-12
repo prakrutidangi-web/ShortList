@@ -1,0 +1,28 @@
+[
+  {
+    "id": "a1b2c3d4-0001",
+    "text": "Software Engineer - University Graduate",
+    "categories": {"location": "Austin, TX", "team": "Engineering", "commitment": "Full-time", "allLocations": ["Austin, TX"]},
+    "country": "US",
+    "workplaceType": "hybrid",
+    "createdAt": 1762000000000,
+    "hostedUrl": "https://jobs.example.test/acme/a1b2c3d4-0001",
+    "applyUrl": "https://jobs.example.test/acme/a1b2c3d4-0001/apply",
+    "description": "<div>Build things with us.</div>",
+    "descriptionPlain": "Build things with us.",
+    "lists": [{"text": "Requirements", "content": "<li>BS/MS in CS</li><li>0-1 years of experience</li>"}],
+    "additional": "<div>Equal opportunity employer.</div>",
+    "additionalPlain": "Equal opportunity employer."
+  },
+  {
+    "id": "a1b2c3d4-0002",
+    "text": "Staff Machine Learning Engineer",
+    "categories": {"location": "Remote", "allLocations": ["Remote", "Toronto, ON, Canada"]},
+    "workplaceType": "remote",
+    "createdAt": 1761000000000,
+    "hostedUrl": "https://jobs.example.test/acme/a1b2c3d4-0002",
+    "descriptionPlain": "We sponsor community events and hackathons. 8+ years of experience required.",
+    "lists": [],
+    "additionalPlain": ""
+  }
+]
