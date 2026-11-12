@@ -1,0 +1,43 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16 # multi-arch (works on Apple Silicon)
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-shortlist}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-shortlist_dev_only}
+      POSTGRES_DB: ${POSTGRES_DB:-shortlist}
+    ports:
+      - "${POSTGRES_HOST_PORT:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-shortlist}:${POSTGRES_PASSWORD:-shortlist_dev_only}@db:5432/${POSTGRES_DB:-shortlist}
+      CORS_ORIGINS: '["http://localhost:${WEB_HOST_PORT:-3000}"]'
+    ports:
+      - "${API_HOST_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: apps/web
+    environment:
+      API_URL: http://api:8000
+    ports:
+      - "${WEB_HOST_PORT:-3000}:3000"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

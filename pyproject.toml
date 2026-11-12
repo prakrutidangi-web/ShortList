@@ -1,0 +1,53 @@
+[project]
+name = "shortlist"
+version = "0.0.1"
+description = "Personalized ranking for new-grad job postings"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pydantic-settings>=2.4",
+    "sqlalchemy>=2.0",
+    "psycopg[binary]>=3.2",
+]
+# ML deps (torch, sentence-transformers, lightgbm, mlflow) are added in the phase that needs them.
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "httpx>=0.27",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "pre-commit>=3.8",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["apps/api/shortlist_api", "ml/shortlist_ml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["apps/api", "ml"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = ["apps/api", "ml"]
+explicit_package_bases = true
+files = ["apps/api", "ml"]
+
+# Untyped third-party libs get relaxed here as they're added (lightgbm, sentence_transformers, ...).
+
+[tool.pytest.ini_options]
+testpaths = ["apps/api/tests", "ml/tests"]
+pythonpath = ["apps/api", "ml"]
+markers = ["db: needs a running Postgres (DATABASE_URL); skipped otherwise"]
+addopts = "-ra --strict-markers"
