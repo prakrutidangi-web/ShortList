@@ -1,0 +1,73 @@
+# CANDIDATES ONLY. Board tokens below are best guesses and are NOT verified.
+# `make verify-companies` hits each live endpoint and writes companies.yaml with only the boards that
+# return HTTP 200 and at least one job; everything else lands in docs/company-verification.md.
+# Entries with an unsupported `ats` are never fetched (we do not scrape other sites).
+
+# --- AI / ML ---
+- {name: Anthropic, ats: greenhouse, board_token: anthropic, category: ai-ml}
+- {name: Scale AI, ats: greenhouse, board_token: scaleai, category: ai-ml}
+- {name: Databricks, ats: greenhouse, board_token: databricks, category: ai-ml}
+- {name: Weights & Biases, ats: greenhouse, board_token: wandb, category: ai-ml}
+- {name: Mistral AI, ats: lever, board_token: mistral, category: ai-ml}
+- {name: Glean, ats: greenhouse, board_token: gleanwork, category: ai-ml}
+- {name: Together AI, ats: greenhouse, board_token: togetherai, category: ai-ml}
+- {name: Anyscale, ats: greenhouse, board_token: anyscale, category: ai-ml}
+
+# --- Data infrastructure ---
+- {name: Fivetran, ats: greenhouse, board_token: fivetran, category: data-infra}
+- {name: dbt Labs, ats: greenhouse, board_token: dbtlabsinc, category: data-infra}
+- {name: MongoDB, ats: greenhouse, board_token: mongodb, category: data-infra}
+- {name: Cockroach Labs, ats: greenhouse, board_token: cockroachlabs, category: data-infra}
+- {name: Datadog, ats: greenhouse, board_token: datadog, category: data-infra}
+- {name: Elastic, ats: greenhouse, board_token: elastic, category: data-infra}
+- {name: Grafana Labs, ats: greenhouse, board_token: grafanalabs, category: data-infra}
+- {name: ClickHouse, ats: greenhouse, board_token: clickhouse, category: data-infra}
+
+# --- Fintech ---
+- {name: Stripe, ats: greenhouse, board_token: stripe, category: fintech}
+- {name: Plaid, ats: lever, board_token: plaid, category: fintech}
+- {name: Robinhood, ats: greenhouse, board_token: robinhood, category: fintech}
+- {name: Coinbase, ats: greenhouse, board_token: coinbase, category: fintech}
+- {name: Brex, ats: greenhouse, board_token: brex, category: fintech}
+- {name: Affirm, ats: greenhouse, board_token: affirm, category: fintech}
+- {name: Chime, ats: greenhouse, board_token: chime, category: fintech}
+- {name: Gusto, ats: greenhouse, board_token: gusto, category: fintech}
+
+# --- Developer tools ---
+- {name: Vercel, ats: greenhouse, board_token: vercel, category: dev-tools}
+- {name: GitLab, ats: greenhouse, board_token: gitlab, category: dev-tools}
+- {name: Figma, ats: greenhouse, board_token: figma, category: dev-tools}
+- {name: LaunchDarkly, ats: greenhouse, board_token: launchdarkly, category: dev-tools}
+- {name: PagerDuty, ats: greenhouse, board_token: pagerduty, category: dev-tools}
+- {name: Cloudflare, ats: greenhouse, board_token: cloudflare, category: dev-tools}
+
+# --- Added after review (tokens are guesses until verified) ---
+- {name: Airbnb, ats: greenhouse, board_token: airbnb, category: consumer-tech}
+- {name: Pinterest, ats: greenhouse, board_token: pinterest, category: consumer-tech}
+- {name: Reddit, ats: greenhouse, board_token: reddit, category: consumer-tech}
+- {name: Lyft, ats: greenhouse, board_token: lyft, category: consumer-tech}
+- {name: Instacart, ats: greenhouse, board_token: instacart, category: consumer-tech}
+- {name: Dropbox, ats: greenhouse, board_token: dropbox, category: consumer-tech}
+- {name: Discord, ats: greenhouse, board_token: discord, category: consumer-tech}
+- {name: Twilio, ats: greenhouse, board_token: twilio, category: dev-tools}
+- {name: Roblox, ats: greenhouse, board_token: roblox, category: consumer-tech}
+- {name: Samsara, ats: greenhouse, board_token: samsara, category: data-infra}
+- {name: Asana, ats: greenhouse, board_token: asana, category: dev-tools}
+- {name: Duolingo, ats: greenhouse, board_token: duolingo, category: consumer-tech}
+- {name: Okta, ats: greenhouse, board_token: okta, category: dev-tools}
+- {name: Rubrik, ats: greenhouse, board_token: rubrik, category: data-infra}
+
+# --- Handshake (you asked me to check both ATSs) ---
+- {name: Handshake, ats: greenhouse, board_token: joinhandshake, category: other}
+- {name: Handshake, ats: lever, board_token: handshake, category: other}
+
+# --- Not on these APIs: reported, never fetched, never scraped ---
+- {name: OpenAI, ats: ashby, note: believed to use Ashby (deferred to a later phase)}
+- {name: Ramp, ats: ashby, note: believed to use Ashby (deferred to a later phase)}
+- {name: Perplexity, ats: ashby, note: believed to use Ashby (deferred to a later phase)}
+- {name: Google, ats: custom, note: own careers site}
+- {name: Meta, ats: custom, note: own careers site}
+- {name: Amazon, ats: custom, note: own careers site}
+- {name: Microsoft, ats: custom, note: own careers site}
+- {name: Jane Street, ats: custom, note: own careers site (quant)}
+- {name: Citadel, ats: custom, note: own careers site (quant)}
