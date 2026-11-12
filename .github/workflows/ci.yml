@@ -18,7 +18,7 @@ jobs:
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run mypy
-      - run: uv run pytest -m "not db"
+      - run: uv run pytest -m "not db and not model"  # fake encoder; no torch is installed in CI
 
   python-db:
     name: DB-backed tests (pgvector service container)

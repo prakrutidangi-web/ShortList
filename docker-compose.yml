@@ -29,6 +29,29 @@ services:
       db:
         condition: service_healthy
 
+  # OPT-IN (profile "ml"): API image WITH torch + sentence-transformers (CPU only: Docker on macOS cannot use the Apple
+  # GPU, so prefer `make dev` for speed). Different host port so it never clashes with the slim `api`:
+  #   docker compose --profile ml up -d --build api-ml     (then point NEXT_PUBLIC_API_URL at :8002)
+  api-ml:
+    profiles: ["ml"]
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      args:
+        WITH_ML: "1"
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-shortlist}:${POSTGRES_PASSWORD:-shortlist_dev_only}@db:5432/${POSTGRES_DB:-shortlist}
+      CORS_ORIGINS: '["http://localhost:${WEB_HOST_PORT:-3000}"]'
+      EMBEDDING_DEVICE: cpu
+      HF_HOME: /models
+    ports:
+      - "${API_ML_HOST_PORT:-8002}:8000"
+    volumes:
+      - hfcache:/models
+    depends_on:
+      db:
+        condition: service_healthy
+
   web:
     build:
       context: apps/web
@@ -62,3 +85,4 @@ services:
 
 volumes:
   pgdata:
+  hfcache:
