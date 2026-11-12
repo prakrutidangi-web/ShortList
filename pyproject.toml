@@ -9,6 +9,10 @@ dependencies = [
     "pydantic-settings>=2.4",
     "sqlalchemy>=2.0",
     "psycopg[binary]>=3.2",
+    "alembic>=1.20.1",
+    "httpx>=0.28.1",
+    "pyyaml>=6.0.3",
+    "tzdata>=2026.6",
 ]
 # ML deps (torch, sentence-transformers, lightgbm, mlflow) are added in the phase that needs them.
 
@@ -20,6 +24,7 @@ dev = [
     "ruff>=0.6",
     "mypy>=1.11",
     "pre-commit>=3.8",
+    "types-pyyaml>=6.0.12.20261111",
 ]
 
 [build-system]
@@ -36,6 +41,7 @@ src = ["apps/api", "ml"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RUF"]
+ignore = ["E501"]  # `ruff format` wraps code; long strings/comments are fine
 
 [tool.mypy]
 python_version = "3.12"
