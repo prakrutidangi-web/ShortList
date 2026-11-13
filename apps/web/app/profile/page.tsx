@@ -125,7 +125,7 @@ export default function ProfilePage() {
     <div className="mx-auto max-w-3xl space-y-8">
       <div>
         <h1 className="text-xl font-semibold">Your profile</h1>
-        <p className="mt-1 text-sm text-gray-600">
+        <p className="mt-1 text-sm text-subtle">
           Your resume is read in memory to suggest skills and is <b>never stored</b>. Only the fields you confirm below, and an embedding of the text
           shown in “What gets embedded”, are saved. Names, emails and phone numbers are never extracted. Nothing is sent to any outside service.
           Backend: <code>{API_URL}</code>
@@ -133,12 +133,12 @@ export default function ProfilePage() {
       </div>
 
       {message && (
-        <p className={`rounded border p-3 text-sm ${message.kind === "ok" ? "border-green-300 bg-green-50 text-green-800" : "border-red-300 bg-red-50 text-red-800"}`}>
+        <p className={`rounded border p-3 text-sm ${message.kind === "ok" ? "border-good/40 bg-good-bg text-good" : "border-bad/40 bg-bad-bg text-bad"}`}>
           {message.text}
         </p>
       )}
 
-      <section className="space-y-3 rounded-lg border bg-white p-4">
+      <section className="space-y-3 rounded-xl border bg-surface p-5 shadow-sm">
         <h2 className="font-medium">1. Start from your resume (optional)</h2>
         <div>
           <label className="mb-1 block text-sm" htmlFor="pdf">
@@ -151,25 +151,25 @@ export default function ProfilePage() {
             …or paste your resume text
           </label>
           <textarea id="paste" rows={5} className="w-full rounded border p-2 text-sm" value={pasted} onChange={(e) => setPasted(e.target.value)} />
-          <button type="button" disabled={busy || pasted.trim().length < 30} onClick={() => void parsePasted()} className="mt-1 rounded bg-gray-900 px-3 py-1.5 text-sm text-white disabled:opacity-40">
+          <button type="button" disabled={busy || pasted.trim().length < 30} onClick={() => void parsePasted()} className="mt-1 rounded bg-accent px-3 py-1.5 text-sm text-accent-ink disabled:opacity-40">
             Suggest skills from this text
           </button>
         </div>
         {suggestion && (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-subtle">
             Read {suggestion.characters_read} characters from your {suggestion.source}. Found {suggestion.skills.length} skills
             {suggestion.grad_date && <> and a graduation date ({suggestion.grad_date_evidence})</>}. {suggestion.note}
           </p>
         )}
       </section>
 
-      <section className="space-y-4 rounded-lg border bg-white p-4">
+      <section className="space-y-4 rounded-xl border bg-surface p-5 shadow-sm">
         <h2 className="font-medium">2. Review and edit</h2>
         <div>
           <p className="mb-1 text-sm font-medium">Skills</p>
           <div className="flex flex-wrap gap-1.5">
             {profile.skills.map((s) => (
-              <button key={s} type="button" title="Remove" onClick={() => setProfile({ ...profile, skills: profile.skills.filter((x) => x !== s) })} className="rounded bg-gray-100 px-2 py-0.5 text-xs hover:bg-red-100">
+              <button key={s} type="button" title="Remove" onClick={() => setProfile({ ...profile, skills: profile.skills.filter((x) => x !== s) })} className="rounded bg-muted px-2 py-0.5 text-xs hover:bg-bad-bg">
                 {s} ×
               </button>
             ))}
@@ -230,23 +230,23 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <section className="space-y-3 rounded-lg border bg-white p-4">
+      <section className="space-y-3 rounded-xl border bg-surface p-5 shadow-sm">
         <h2 className="font-medium">3. What gets embedded, then save</h2>
         <button type="button" disabled={busy} onClick={() => void doPreview()} className="rounded border px-3 py-1.5 text-sm">
           Show the exact text that will be embedded
         </button>
-        {preview && <pre className="whitespace-pre-wrap rounded bg-gray-50 p-3 text-sm">{preview}</pre>}
+        {preview && <pre className="whitespace-pre-wrap rounded bg-canvas p-3 text-sm">{preview}</pre>}
         <div className="flex gap-3">
-          <button type="button" disabled={busy} onClick={() => void save()} className="rounded bg-gray-900 px-4 py-2 text-sm text-white disabled:opacity-40">
+          <button type="button" disabled={busy} onClick={() => void save()} className="rounded bg-accent px-4 py-2 text-sm text-accent-ink disabled:opacity-40">
             Save profile
           </button>
           {saved && (
-            <button type="button" disabled={busy} onClick={remove} className="rounded border border-red-300 px-4 py-2 text-sm text-red-700">
+            <button type="button" disabled={busy} onClick={remove} className="rounded border border-bad/40 px-4 py-2 text-sm text-bad hover:bg-bad-bg">
               Delete my profile data
             </button>
           )}
         </div>
-        {saved && <p className="text-xs text-gray-500">Last saved {new Date(saved.updated_at).toLocaleString()}.</p>}
+        {saved && <p className="text-xs text-subtle">Last saved {new Date(saved.updated_at).toLocaleString()}.</p>}
       </section>
     </div>
   );

@@ -50,35 +50,35 @@ function Card({ r }: { r: Result }) {
   const [open, setOpen] = useState(false);
   const w = r.explanation.sponsorship_warning;
   return (
-    <li className="rounded-lg border bg-white p-4 shadow-sm">
+    <li className="rounded-xl border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <h3 className="text-base font-semibold">{r.title}</h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-subtle">
             {r.company} · {r.location_raw ?? "location not stated"}
             {r.is_remote ? " · remote" : ""}
           </p>
         </div>
-        <div className="text-right text-xs text-gray-500">
-          <div className="text-sm font-medium text-gray-800">score {r.score.toFixed(2)}</div>
+        <div className="text-right text-xs text-subtle">
+          <div className="text-sm font-medium text-ink">score {r.score.toFixed(2)}</div>
           <div>#{r.position}</div>
         </div>
       </div>
 
       <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
         {r.role_family && (
-          <span className="rounded bg-gray-100 px-2 py-0.5">{ROLE_LABELS[r.role_family] ?? r.role_family}</span>
+          <span className="rounded bg-muted px-2 py-0.5">{ROLE_LABELS[r.role_family] ?? r.role_family}</span>
         )}
         {r.is_entry_level ? (
-          <span className="rounded bg-green-100 px-2 py-0.5 text-green-800">
+          <span className="rounded bg-good-bg px-2 py-0.5 text-good">
             entry-level ({r.entry_evidence.rule}: “{r.entry_evidence.text}”)
           </span>
         ) : (
-          <span className="rounded bg-gray-100 px-2 py-0.5">{r.explanation.seniority}</span>
+          <span className="rounded bg-muted px-2 py-0.5">{r.explanation.seniority}</span>
         )}
         {w && (
           <span
-            className={`rounded px-2 py-0.5 ${w.level === "restricted" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"}`}
+            className={`rounded px-2 py-0.5 ${w.level === "restricted" ? "bg-bad-bg text-bad" : "bg-warn-bg text-warn"}`}
             title={w.snippet ?? ""}
           >
             sponsorship: {w.level}
@@ -89,11 +89,11 @@ function Card({ r }: { r: Result }) {
 
       {r.explanation.matched_skills.length > 0 && (
         <p className="mt-2 text-sm">
-          <span className="text-gray-500">Matches your skills:</span> {r.explanation.matched_skills.join(", ")}
+          <span className="text-subtle">Matches your skills:</span> {r.explanation.matched_skills.join(", ")}
         </p>
       )}
       {r.also_listed_in.length > 0 && (
-        <p className="mt-1 text-xs text-gray-500">Also listed in: {r.also_listed_in.join(" · ")}</p>
+        <p className="mt-1 text-xs text-subtle">Also listed in: {r.also_listed_in.join(" · ")}</p>
       )}
 
       <div className="mt-3 flex items-center gap-4 text-sm">
@@ -101,17 +101,17 @@ function Card({ r }: { r: Result }) {
           href={r.apply_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded bg-gray-900 px-3 py-1.5 text-white hover:bg-gray-700"
+          className="rounded bg-accent px-3 py-1.5 font-medium text-accent-ink hover:opacity-90"
         >
           View &amp; apply on company site ↗
         </a>
-        <button type="button" onClick={() => setOpen(!open)} className="text-gray-600 underline">
+        <button type="button" onClick={() => setOpen(!open)} className="text-subtle underline">
           {open ? "Hide why" : "Why this?"}
         </button>
       </div>
 
       {open && (
-        <div className="mt-3 space-y-1 rounded bg-gray-50 p-3 text-sm">
+        <div className="mt-3 space-y-1 rounded bg-canvas p-3 text-sm">
           <p>
             <b>Seniority:</b> {r.explanation.seniority}
           </p>
@@ -127,11 +127,11 @@ function Card({ r }: { r: Result }) {
             </p>
           )}
           {w?.snippet && (
-            <p className="rounded bg-amber-50 p-2">
+            <p className="rounded bg-warn-bg p-2">
               <b>Sponsorship text:</b> “{w.snippet}”
             </p>
           )}
-          <p className="pt-1 text-xs text-gray-500">
+          <p className="pt-1 text-xs text-subtle">
             Score parts (0–1): {Object.entries(r.breakdown)
               .map(([k, v]) => `${k} ${v === null ? "n/a" : v.toFixed(2)}`)
               .join(" · ")}
@@ -188,7 +188,7 @@ export default function Feed() {
             Location contains
           </label>
           <input id="loc" className="w-full rounded border px-2 py-1" value={filters.location} onChange={(e) => set("location", e.target.value)} placeholder="e.g. Seattle, CA, Canada" />
-          <p className="mt-1 text-xs text-gray-500">Postings with no stated location are kept.</p>
+          <p className="mt-1 text-xs text-subtle">Postings with no stated location are kept.</p>
         </div>
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={filters.remoteOnly} onChange={(e) => set("remoteOnly", e.target.checked)} /> Remote only
@@ -228,7 +228,7 @@ export default function Feed() {
             <option value="30">30 days</option>
             <option value="90">90 days</option>
           </select>
-          <p className="mt-1 text-xs text-gray-500">Uses the company-reported date.</p>
+          <p className="mt-1 text-xs text-subtle">Uses the company-reported date.</p>
         </div>
         <div className="space-y-1 border-t pt-3">
           <label className="flex items-center gap-2">
@@ -237,7 +237,7 @@ export default function Feed() {
           <label className="flex items-center gap-2">
             <input type="checkbox" checked={filters.entryOnly} onChange={(e) => set("entryOnly", e.target.checked)} /> Only flagged entry-level
           </label>
-          <p className="text-xs text-gray-500">The entry-level flag is a noisy heuristic; leave this off to avoid hiding good roles.</p>
+          <p className="text-xs text-subtle">The entry-level flag is a noisy heuristic; leave this off to avoid hiding good roles.</p>
           <label className="flex items-center gap-2">
             <input type="checkbox" checked={filters.hideRestricted} onChange={(e) => set("hideRestricted", e.target.checked)} /> Hide “no sponsorship” postings
           </label>
@@ -245,34 +245,34 @@ export default function Feed() {
             <input type="checkbox" checked={filters.collapse} onChange={(e) => set("collapse", e.target.checked)} /> Merge same-title listings in other locations
           </label>
         </div>
-        <button type="button" className="text-gray-600 underline" onClick={() => setFilters(DEFAULTS)}>
+        <button type="button" className="text-subtle underline" onClick={() => setFilters(DEFAULTS)}>
           Reset filters
         </button>
       </aside>
 
       <section>
-        <div className="mb-3 rounded border border-amber-300 bg-amber-50 p-3 text-xs text-amber-900">
+        <div className="mb-3 rounded border border-warn/40 bg-warn-bg p-3 text-xs text-warn">
           Scores come from a hand-weighted scorer with <b>untuned</b> weights. They have not been measured against any baseline yet.
         </div>
-        {loading && <p className="text-sm text-gray-500">Loading…</p>}
+        {loading && <p className="text-sm text-subtle">Loading…</p>}
         {error?.status === 409 && (
-          <p className="rounded border bg-white p-4">
+          <p className="rounded border bg-surface p-4">
             You don’t have a profile yet. <Link href="/profile" className="underline">Create one from your resume</Link> to see ranked postings.
           </p>
         )}
-        {error && error.status !== 409 && <p className="rounded border border-red-300 bg-red-50 p-4 text-sm text-red-800">{error.message}</p>}
+        {error && error.status !== 409 && <p className="rounded border border-bad/40 bg-bad-bg p-4 text-sm text-bad">{error.message}</p>}
         {data && (
           <>
-            <p className="mb-3 text-sm text-gray-600">
+            <p className="mb-3 text-sm text-subtle">
               {data.total_candidates} candidates retrieved (top {data.candidate_pool_cap} by similarity, after merging duplicates) · showing {data.results.length} · {data.timing_ms} ms · request {data.request_id.slice(0, 8)}
-              {data.notes.length > 0 && <span className="block text-xs text-gray-500">{data.notes.join("; ")}</span>}
+              {data.notes.length > 0 && <span className="block text-xs text-subtle">{data.notes.join("; ")}</span>}
             </p>
             <ul className="space-y-3">
               {data.results.map((r) => (
                 <Card key={r.posting_id} r={r} />
               ))}
             </ul>
-            {data.results.length === 0 && <p className="rounded border bg-white p-4 text-sm">No postings match these filters.</p>}
+            {data.results.length === 0 && <p className="rounded border bg-surface p-4 text-sm">No postings match these filters.</p>}
           </>
         )}
       </section>
